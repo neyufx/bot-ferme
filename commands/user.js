@@ -15,7 +15,7 @@ module.exports = {
         let arg3 = nanoid();
         message.guild.channels.create(arg3+'-'+arg1, {
             type: 'GUILD_TEXT',
-            parent: '898683278775713823', // Créer channel dans la catégorie
+            parent: '935208101014032384', // Créer channel dans la catégorie
             permissionOverwrites: [{
                 id: message.guild.id,
                 deny:['SEND_MESSAGES','VIEW_CHANNEL']

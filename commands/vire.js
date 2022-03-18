@@ -6,7 +6,7 @@ module.exports = {
     description: 'Vire un employé',
     execute(message,args){
         let arg1 = args[0];
-        message.channel.setParent('899312965394771999'); // id du channel vire
+        message.channel.setParent('954320950290157618'); // id du channel vire
         db.pool.getConnection(function(err, connection) {
           // Use the connection
           connection.query(`SELECT * FROM kilos`, function (error, results, fields) {
