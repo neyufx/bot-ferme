@@ -32,7 +32,7 @@ module.exports = {
                         function capitalizeFirstLetter(string) {
                             return string[0].toUpperCase() + string.slice(1);
                         }
-                        message.channel.send(`Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :`)
+                        message.channel.send(`Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} :`)
                         let i = 1;
                         result.forEach(element => {
                             message.channel.send(`${i++}`+'. '+capitalizeFirstLetter(element['nomRp'].replace('-',' '))+' : '+element['totalKg']+'kg');
@@ -40,13 +40,11 @@ module.exports = {
                         connection.query(`SELECT SUM(quantite) as totalKg 
                         FROM dossiers JOIN employees on employee_id = employees.id 
                         WHERE date BETWEEN "${firstdate}" AND "${lastdate}"`, function(error,result,field){
-                            console.log(result[0]['totalKg']);
                             if (error) throw error;
                                 else if (result){
-                                    console.log(result);
-                                    message.channel.send(`Total kg : `+ result[0]['totalKg']);
+                                    message.channel.send(`Total : `+ result[0]['totalKg']+` kg`);
                             }
-                        });
+                        })
                 } // fin if
                 else{
                 message.channel.send('Il n\'y a pas de classement cette semaine !');
