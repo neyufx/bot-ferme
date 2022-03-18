@@ -34,8 +34,6 @@ bot.on('messageCreate', message => {
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
     const gerantRole = message.member.roles.cache.some(role => role.name === 'Gérants');// rôle
-    const patronRole = message.member.roles.cache.some(role => role.name === 'Patron');// rôle
-    const coPatronRole = message.member.roles.cache.some(role => role.name === 'Co-Patron');// rôle
     /* Si la commande user */
     if(gerantRole){
     if(command === 'user'){ // Commande !user <nomrp> <nomsteam> @taguser
@@ -166,9 +164,7 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'classement')
     {
-        if(patronRole || coPatronRole){
         bot.commands.get('classement').execute(message,args);
-        }
     }
     else if (command === 'salon')
     {
