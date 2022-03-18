@@ -1,9 +1,18 @@
 {
   "dependencies": {
     "@discordjs/builders": "^0.6.0",
+    "cors": "^2.8.5",
+    "date-fns": "^2.25.0",
     "discord.js": "^13.2.0",
     "dotenv": "^10.0.0",
-    "mysql": "^2.18.1",
-    "nanoid": "^3.1.30"
+    "mysql": "github:mysqljs/mysql",
+    "nanoid": "^3.1.30",
+    "node-fetch": "^2.6.1"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "engines": {
+    "node": "16.6"
   }
 }
