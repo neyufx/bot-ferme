@@ -4,6 +4,8 @@ const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MES
 const config = require('./config.json');
 const path = require('path');
 const db = require('../database/db.js');
+const { channel } = require('diagnostics_channel');
+const fetch = require('node-fetch');
 const prefix = "!";
 
 
@@ -31,7 +33,9 @@ bot.on('messageCreate', message => {
 
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
-    const gerantRole = message.member.roles.cache.some(role => role.name === 'Gérants');
+    const gerantRole = message.member.roles.cache.some(role => role.name === 'Gérants');// rôle
+    const patronRole = message.member.roles.cache.some(role => role.name === 'Patron');// rôle
+    const coPatronRole = message.member.roles.cache.some(role => role.name === 'Co-Patron');// rôle
     /* Si la commande user */
     if(gerantRole){
     if(command === 'user'){ // Commande !user <nomrp> <nomsteam> @taguser
@@ -45,23 +49,152 @@ bot.on('messageCreate', message => {
     }else if (command === 'kilo'){
         let arg1 = args[0];
         if (arg1){
+            if(arg1 < 1001 && arg1 > -501){
             bot.commands.get('kilo').execute(message,args);
             db.pool.getConnection(function(err, connection) {
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+                today = yyyy + '/' + mm + '/' + dd;
                 // Use the connection
-                connection.query(`insert into kilos(quantite,dossier) values("${arg1}","${message.channel.id}")`, function (error, results, fields) {
+                connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
+                    if (result[0] !== undefined){
+                connection.query(`insert into dossiers(numero,quantite,nom,date,employee_id) values("${message.channel.id}","${arg1}","${message.channel.name}","${today}","${result[0]['id']}")`, function (error, results, fields) {
                 // When done with the connection, release it.
                 connection.release();
                 // Handle error after the release.
                 if (error) throw error;
                 // Don't use the connection here, it has been returned to the pool.
                 });
+            }
+            else{
+                message.channel.send('Mauvais channel !')
+            }
+                });
               });
+            }
+            else{
+                message.channel.send('Quantité de kilos trop élevé !')
+            }
         }
     }else if (command === 'vire'){
-        const Discord = require("discord.js")
-
+        const Discord = require("discord.js");
         bot.commands.get('vire').execute(message,args);
-        message.channel.send("https://cdn.discordapp.com/attachments/899310160672067586/899310182075609108/vire.gif");
+        message.channel.send({files: ["./images/vire.gif"]});
+        var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+                today = yyyy + '/' + mm + '/' + dd;
+                db.pool.getConnection(function(err, connection) {
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = today.getFullYear();
+                    today = yyyy + '/' + mm + '/' + dd;
+                    // Use the connection     
+                    connection.query(`UPDATE employees SET isViree = "${today}" WHERE nomDossier = "${message.channel.name}"`, function (error, results, fields) {
+                    // When done with the connection, release it.
+                    connection.release();
+                    // Handle error after the release.
+                    if (error) throw error;
+                    // Don't use the connection here, it has been returned to the pool.
+                    });
+        });
+    }
+    else if (command === 'semaine')
+    {
+        const Discord = require("discord.js");
+        bot.commands.get('semaine').execute(message,args);
+        const channel = bot.channels.cache.get('887267095493103637'); // id catégorie
+        channel.children.forEach(e => {
+            if(e.name !== undefined)
+            {
+                const channel01 = bot.channels.cache.get(e.id);
+                channel01.send({files: ["./images/semaine.gif"]})
+            }
+        })
+        //message.channel.send(`Le bot redémarre...`).then(process.exit(0));
+        // ()=>bot.destroy()).then(()=>bot.login(config.token) 'dans le then'
+    }
+    else if (command === 'pause')
+    {
+        const Discord = require("discord.js");
+        bot.commands.get('pause').execute(message,args);
+    }
+    else if (command === 'prime')
+    {
+        const Discord = require("discord.js");
+        bot.commands.get('prime').execute(message,args);
+        message.channel.send({files: ["./images/prime.gif"]});
+        db.pool.getConnection(function(err, connection) {
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
+            today = yyyy + '/' + mm + '/' + dd;
+            // Use the connection
+            connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
+                if (result[0] !== undefined){
+            connection.query(`insert into primes(date,employee_id) values("${today}","${result[0]['id']}")`, function (error, results, fields) {
+            // When done with the connection, release it.
+            connection.release();
+            // Handle error after the release.
+            if (error) throw error;
+            // Don't use the connection here, it has been returned to the pool.
+            });
+        }
+    })
+})
+    }
+    else if (command === 'carte')
+    {
+        message.channel.send({files: ["./images/carte.png"]});
+    }
+    else if (command === 'commandes')
+    {
+        message.channel.send('!user <nomrp> <nomsteam> @taguser\n!kilo <nbkilos>\n!vire\n!pause\n!semaine\n!prime\n!carte\n!steamreg <lien compte steam>\n!steam\n!classement\n!restart\n!salon\n!classement10')
+    }
+    else if (command === 'steamreg')
+    {
+        bot.commands.get('steamreg').execute(message,args);
+    }
+    else if (command === 'steam')
+    {
+        bot.commands.get('steam').execute(message,args);
+    }
+    else if (command === 'classement')
+    {
+        if(patronRole || coPatronRole){
+        bot.commands.get('classement').execute(message,args);
+        }
+    }
+    else if (command === 'salon')
+    {
+        salons = ['<#954147152823722024>','<#954147198008958976>','<#954147293836238908>','<#954147077791830086>'];
+        salons.forEach(element => {
+            message.channel.send(element);
+        })
+        console.log(salons);
+        bot.commands.get('salon').execute(message,args);
+    }
+    else if (command === 'classement10')
+    {
+        if(patronRole || coPatronRole){
+        bot.commands.get('classement10').execute(message,args);
+        }
+    }
+    else if (command === 'restart'){
+        fetch('https://api.heroku.com/apps/ferme-bot/dynos', {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/vnd.heroku+json; version=3',
+                'Authorization': 'Bearer '+process.env.KEY
+            }
+        }).then(response => response.json())
+        .then(response => console.log(response));
     }
 }
 
@@ -72,4 +205,4 @@ bot.on('messageCreate', message => {
 bot.on('error', console.error);
 
 /* Connecte le bot avec le token fourni en paramètre */
-bot.login(process.env.TOKEN);
+bot.login(process.env.TOKEN); // config.token
