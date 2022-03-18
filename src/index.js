@@ -148,7 +148,7 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'carte')
     {
-        message.channel.send({files: ["./images/carte.png"]});
+        message.channel.send({files: ["./images/carte.PNG"]});
     }
     else if (command === 'commandes')
     {
