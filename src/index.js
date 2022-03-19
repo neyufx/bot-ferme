@@ -105,7 +105,7 @@ bot.on('messageCreate', message => {
     {
         const Discord = require("discord.js");
         bot.commands.get('semaine').execute(message,args);
-        const channel = bot.channels.cache.get('887267095493103637'); // id catégorie
+        const channel = bot.channels.cache.get('935208101014032384'); // id catégorie
         channel.children.forEach(e => {
             if(e.name !== undefined)
             {
