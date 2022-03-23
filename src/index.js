@@ -151,9 +151,9 @@ bot.on('messageCreate', message => {
         const file = new MessageAttachment("./images/carte.PNG");
         const embedMessage = new MessageEmbed()
         .setTitle('Carte Ferme')
-        .setImage('attachment://carte.PNG');
+        .setImage('attachment://carte.PNG')
+        .setColor('#7289da');
         message.channel.send({embeds: [embedMessage], files: [file]});
-        message.channel.send({files: ["./images/carte.PNG"]});
     }
     else if (command === 'commandes')
     {
