@@ -34,8 +34,6 @@ bot.on('messageCreate', message => {
     const args = message.content.slice(prefix.length).split(/ +/);
     const command = args.shift().toLowerCase();
     const gerantRole = message.member.roles.cache.some(role => role.name === 'Gérants');// rôle
-    const patronRole = message.member.roles.cache.some(role => role.name === 'Patron');// rôle
-    const coPatronRole = message.member.roles.cache.some(role => role.name === 'Co-Patron');// rôle
     /* Si la commande user */
     if(gerantRole){
     if(command === 'user'){ // Commande !user <nomrp> <nomsteam> @taguser
@@ -107,7 +105,7 @@ bot.on('messageCreate', message => {
     {
         const Discord = require("discord.js");
         bot.commands.get('semaine').execute(message,args);
-        const channel = bot.channels.cache.get('887267095493103637'); // id catégorie
+        const channel = bot.channels.cache.get('935208101014032384'); // id catégorie
         channel.children.forEach(e => {
             if(e.name !== undefined)
             {
@@ -170,9 +168,7 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'classement')
     {
-        if(patronRole || coPatronRole){
         bot.commands.get('classement').execute(message,args);
-        }
     }
     else if (command === 'salon')
     {
@@ -185,9 +181,7 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'classement10')
     {
-        if(patronRole || coPatronRole){
         bot.commands.get('classement10').execute(message,args);
-        }
     }
     else if (command === 'restart'){
         fetch('https://api.heroku.com/apps/ferme-bot/dynos', {
