@@ -25,6 +25,52 @@ bot.on('ready', () => {
     console.log(`Connectez en tant que : ${bot.user.tag}!`);
     bot.user.setStatus("online");
     bot.user.setActivity("Calculer les primes");
+
+    var job = new CronJob('0 49 22 * * *', function () {
+        let channel = bot.channels.get('954146765047750676'); // channel General-Hrp
+        channel.send('test');
+        db.pool.getConnection(function(err, connection) {
+            var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+            var last = first + 6; // last day is the first day + 6
+            var firstdate = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+            var lastdate = new Date(curr.setDate(curr.getDate()+6)).toISOString().slice(0, 10);
+            connection.query(`SELECT employees.nomRp,SUM(quantite) as totalKg
+            FROM dossiers JOIN employees on employee_id = employees.id 
+            WHERE date BETWEEN "${firstdate}" AND "${lastdate}"
+            group by nom
+            ORDER by totalKg desc
+            LIMIT 3`, function(error, result,field) {
+                if (error) throw error;
+                else if (result){
+                    let medals = ['🥇','🥈','🥉']
+                    function dateFormat(date){
+                        var today = new Date(date);
+                        var dd = String(today.getDate()).padStart(2, '0');
+                        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                        var yyyy = today.getFullYear();
+                        return dd + '/' + mm + '/' + yyyy;
+                    }
+                    function capitalizeFirstLetter(string) {
+                        return string[0].toUpperCase() + string.slice(1);
+                    }
+                    channel.send(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :`)
+                    let i = 0;
+                    result.forEach(element => {
+                        channel.send(`${medals[i++]}`+' - '+capitalizeFirstLetter(element['nomRp'].replace('-',' '))+' : '+element['totalKg']+'kg');
+                    });  
+            } // fin if
+            else{
+            channel.send('Il n\'y a pas de classement cette semaine !');
+            }
+            // When done with the connection, release it.
+            connection.release();
+            // Handle error after the release.
+            
+            // Don't use the connection here, it has been returned to the pool.
+        });
+    })
+    }, null, true, 'Europe/Paris')
+    job.start();
   });
 
 
@@ -200,52 +246,6 @@ bot.on('messageCreate', message => {
 }
 
 });
-
-var job = new CronJob('0 45 22 * * *', function () {
-    let channel = bot.GUILDS.channels.cache.get('954146765047750676'); // channel General-Hrp
-    channel.send('test');
-    db.pool.getConnection(function(err, connection) {
-        var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-        var last = first + 6; // last day is the first day + 6
-        var firstdate = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-        var lastdate = new Date(curr.setDate(curr.getDate()+6)).toISOString().slice(0, 10);
-        connection.query(`SELECT employees.nomRp,SUM(quantite) as totalKg
-        FROM dossiers JOIN employees on employee_id = employees.id 
-        WHERE date BETWEEN "${firstdate}" AND "${lastdate}"
-        group by nom
-        ORDER by totalKg desc
-        LIMIT 3`, function(error, result,field) {
-            if (error) throw error;
-            else if (result){
-                let medals = ['🥇','🥈','🥉']
-                function dateFormat(date){
-                    var today = new Date(date);
-                    var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                    var yyyy = today.getFullYear();
-                    return dd + '/' + mm + '/' + yyyy;
-                }
-                function capitalizeFirstLetter(string) {
-                    return string[0].toUpperCase() + string.slice(1);
-                }
-                channel.send(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :`)
-                let i = 0;
-                result.forEach(element => {
-                    channel.send(`${medals[i++]}`+' - '+capitalizeFirstLetter(element['nomRp'].replace('-',' '))+' : '+element['totalKg']+'kg');
-                });  
-        } // fin if
-        else{
-        channel.send('Il n\'y a pas de classement cette semaine !');
-        }
-        // When done with the connection, release it.
-        connection.release();
-        // Handle error after the release.
-        
-        // Don't use the connection here, it has been returned to the pool.
-    });
-})
-}, null, true, 'Europe/Paris')
-job.start();
 
 
 /* Affiche les erreurs dans la console */
