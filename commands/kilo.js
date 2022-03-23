@@ -27,7 +27,7 @@ module.exports = {
             .setTitle("──── 🌾 Ajout de kilos 🌾 ────")
             .setColor("#E67E22")
             .setDescription("Ajout de : "+arg1+" kg \nTotal de : "+result+" kg")
-            .setFooter('Ferme', 'https://ibb.co/Wscxfc4');
+            .setFooter('Ferme', 'https://imgur.com/a/CVfUeYw');
             message.channel.send({embeds: [embedMessage]});
           // When done with the connection, release it.
           connection.release();
