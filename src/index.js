@@ -1,5 +1,6 @@
 const { Client, Collection, Intents, MessageAttachment, MessageEmbed } = require('discord.js');
 var CronJob = require('cron').CronJob;
+const CronTime = require('cron').CronTime
 const fs = require('fs');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 const config = require('./config.json');
@@ -71,8 +72,8 @@ bot.on('ready', () => {
         });
     })
     }, null, true, 'Europe/Paris')
-    job.setTime(new CronTime('0 01 23 * * *'))
-    job.setTime(new CronTime('0 02 23 * * *'))
+    job.setTime(new CronTime('0 03 23 * * *'))
+    job.setTime(new CronTime('0 04 23 * * *'))
     job.setTime(new CronTime('0 0 13 * * *')) // Envoi a 13:00:00
     job.setTime(new CronTime('0 0 19 * * *')) // Envoi a 19:00:00
     job.start();
