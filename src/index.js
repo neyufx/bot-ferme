@@ -201,8 +201,9 @@ bot.on('messageCreate', message => {
 
 });
 
-var job = new CronJob('0 41 22 * * *', function () {
-    let channel = bot.channels.get('954146765047750676'); // channel General-Hrp
+var job = new CronJob('0 45 22 * * *', function () {
+    let channel = bot.GUILDS.channels.cache.get('954146765047750676'); // channel General-Hrp
+    channel.send('test');
     db.pool.getConnection(function(err, connection) {
         var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
         var last = first + 6; // last day is the first day + 6
