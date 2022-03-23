@@ -1,17 +1,17 @@
+const { Client, Collection, Intents } = require('discord.js');
 const fs = require('fs');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 const config = require('./config.json');
 const path = require('path');
 const db = require('../database/db.js');
 const { channel } = require('diagnostics_channel');
-const { MessageAttachment, MessageEmbed } = require('discord.js');
 const fetch = require('node-fetch');
 const prefix = "!";
 
 
 /* Va chercher les commandes dans le dossier /commands */
 bot.commands = new Collection();
-const dirPath = path.resolve(__dirname, '../commands/');
+const dirPath = path.resolve(__dirname, '../commands');
 const commandFiles = fs.readdirSync(dirPath).filter(file => file.endsWith('.js'));
 for(const file of commandFiles){
     const command = require(`../commands/${file}`);
@@ -148,11 +148,7 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'carte')
     {
-        const file = new MessageAttachment("./images/carte.png");
-        const embedMessage = new MessageEmbed()
-        .setTitle('Carte Ferme')
-        .setImage('attachment://carte.png');
-        message.channel.send({embeds: [embedMessage], files: [file]});
+        message.channel.send({files: ["./images/carte.PNG"]});
     }
     else if (command === 'commandes')
     {
@@ -203,4 +199,4 @@ bot.on('messageCreate', message => {
 bot.on('error', console.error);
 
 /* Connecte le bot avec le token fourni en paramètre */
-bot.login(config.token); // config.token
+bot.login(process.env.TOKEN); // config.token
