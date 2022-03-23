@@ -42,7 +42,7 @@ module.exports = {
                         .setColor('#E67E22')
                         .setFooter('© Ferme')
                         .setTimestamp();
-                        let i = 0;
+                        message.channel.send({embeds: [embedMessage]});
                 } // fin if
                 else{
                 message.channel.send('Il n\'y a pas de classement cette semaine !');
