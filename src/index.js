@@ -201,7 +201,7 @@ bot.on('messageCreate', message => {
 
 });
 
-let scheduledMessage = new cron.CronJob('00 06 22 * * *', () => {
+let scheduledMessage = new cron.CronJob('00 23 21 * * *', () => {
     // This runs every day at 21:32:00, you can do anything you want
     let channel = bot.channels.get('954146765047750676'); // channel General-Hrp
     db.pool.getConnection(function(err, connection) {
@@ -242,8 +242,9 @@ let scheduledMessage = new cron.CronJob('00 06 22 * * *', () => {
         // Handle error after the release.
         
         // Don't use the connection here, it has been returned to the pool.
-    })
-})
+    });
+});
+});
 
 
 /* Affiche les erreurs dans la console */
