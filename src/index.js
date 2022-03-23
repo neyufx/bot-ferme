@@ -8,6 +8,7 @@ const db = require('../database/db.js');
 const { channel } = require('diagnostics_channel');
 const fetch = require('node-fetch');
 const prefix = "!";
+var curr = new Date; // get current date
 
 
 /* Va chercher les commandes dans le dossier /commands */
@@ -26,7 +27,7 @@ bot.on('ready', () => {
     bot.user.setStatus("online");
     bot.user.setActivity("Calculer les primes");
 
-    var job = new CronJob('0 51 22 * * *', function () {
+    var job = new CronJob('0 53 22 * * *', function () {
         let channel = bot.channels.cache.get('954146765047750676'); // channel General-Hrp
         channel.send('test');
         db.pool.getConnection(function(err, connection) {
