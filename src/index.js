@@ -201,7 +201,7 @@ bot.on('messageCreate', message => {
 
 });
 
-let scheduledMessage = new cron.CronJob('00 13 22 * * *', () => {
+let scheduledMessage = new cron.CronJob('00 17 22 * * *', () => {
     // This runs every day at 21:32:00, you can do anything you want
     let channel = bot.channels.get('954146765047750676'); // channel General-Hrp
     db.pool.getConnection(function(err, connection) {
