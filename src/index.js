@@ -1,8 +1,8 @@
 const { Client, Collection, Intents, MessageAttachment, MessageEmbed } = require('discord.js');
+var CronJob = require('cron').CronJob;
 const fs = require('fs');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 const config = require('./config.json');
-const cron = require('cron');
 const path = require('path');
 const db = require('../database/db.js');
 const { channel } = require('diagnostics_channel');
@@ -201,8 +201,7 @@ bot.on('messageCreate', message => {
 
 });
 
-let scheduledMessage = new cron.CronJob('00 26 22 * * *', () => {
-    // This runs every day at 21:32:00, you can do anything you want
+var job = new CronJob('0 41 22 * * *', function () {
     let channel = bot.channels.get('954146765047750676'); // channel General-Hrp
     db.pool.getConnection(function(err, connection) {
         var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
@@ -243,9 +242,9 @@ let scheduledMessage = new cron.CronJob('00 26 22 * * *', () => {
         
         // Don't use the connection here, it has been returned to the pool.
     });
-});
-});
-scheduledMessage.start();
+})
+}, null, true, 'Europe/Paris')
+job.start();
 
 
 /* Affiche les erreurs dans la console */
