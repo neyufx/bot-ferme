@@ -152,7 +152,7 @@ bot.on('messageCreate', message => {
         const embedMessage = new MessageEmbed()
         .setTitle('Carte Ferme')
         .setImage('attachment://carte.PNG')
-        .setColor('#7289da');
+        .setColor('#E67E22');
         message.channel.send({embeds: [embedMessage], files: [file]});
     }
     else if (command === 'commandes')
