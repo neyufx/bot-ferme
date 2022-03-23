@@ -150,7 +150,7 @@ bot.on('messageCreate', message => {
     {
         const file = new MessageAttachment("./images/carte.PNG");
         const embedMessage = new MessageEmbed()
-        .setTitle('Carte Ferme')
+        .setTitle('🗺️ Carte Ferme')
         .setImage('attachment://carte.PNG')
         .setColor('#E67E22')
         .setTimestamp();
