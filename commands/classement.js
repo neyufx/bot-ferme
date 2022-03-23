@@ -34,7 +34,7 @@ module.exports = {
                             return string[0].toUpperCase() + string.slice(1);
                         }
                         const embedMessage = new MessageEmbed()
-                        .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)}`)
+                        .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} 🏆`)
                         .addFields(
                             {name: `─`, value: `${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))} : ${result[0]['totalKg']} kg`},
                             {name: `─`, value: `${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))} : ${result[1]['totalKg']} kg`},
