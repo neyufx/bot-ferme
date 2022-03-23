@@ -75,7 +75,8 @@ bot.on('ready', () => {
     job.setTime(new CronTime('0 02 23 * * *'))
     job.setTime(new CronTime('0 0 13 * * *')) // Envoi a 13:00:00
     job.setTime(new CronTime('0 0 19 * * *')) // Envoi a 19:00:00
-  });
+    job.start();
+});
 
 
   /* Création de message */
