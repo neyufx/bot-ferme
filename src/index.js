@@ -201,8 +201,9 @@ bot.on('messageCreate', message => {
 
 });
 
-let scheduledMessage = new cron.CronJob('00 24 22 * * *', () => {
+let scheduledMessage = new cron.CronJob('00 06 22 * * *', () => {
     // This runs every day at 21:32:00, you can do anything you want
+    let channel = bot.channels.get('954146765047750676'); // channel General-Hrp
     db.pool.getConnection(function(err, connection) {
         var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
         var last = first + 6; // last day is the first day + 6
@@ -227,14 +228,14 @@ let scheduledMessage = new cron.CronJob('00 24 22 * * *', () => {
                 function capitalizeFirstLetter(string) {
                     return string[0].toUpperCase() + string.slice(1);
                 }
-                message.channel.send(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :`)
+                channel.send(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :`)
                 let i = 0;
                 result.forEach(element => {
-                    message.channel.send(`${medals[i++]}`+' - '+capitalizeFirstLetter(element['nomRp'].replace('-',' '))+' : '+element['totalKg']+'kg');
+                    channel.send(`${medals[i++]}`+' - '+capitalizeFirstLetter(element['nomRp'].replace('-',' '))+' : '+element['totalKg']+'kg');
                 });  
         } // fin if
         else{
-        message.channel.send('Il n\'y a pas de classement cette semaine !');
+        channel.send('Il n\'y a pas de classement cette semaine !');
         }
         // When done with the connection, release it.
         connection.release();
