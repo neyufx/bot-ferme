@@ -34,9 +34,9 @@ module.exports = {
                             return string[0].toUpperCase() + string.slice(1);
                         }
                         message.channel.send(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :\n
-                        ${medals[0]} - ${capitalizeFirstLetter(element[0]['nomRp'].replace('-',' '))} : ${element[0]['totalKg']} kg\n
-                        ${medals[1]} - ${capitalizeFirstLetter(element[1]['nomRp'].replace('-',' '))} : ${element[1]['totalKg']} kg\n
-                        ${medals[2]} - ${capitalizeFirstLetter(element[2]['nomRp'].replace('-',' '))} : ${element[2]['totalKg']} kg
+                        ${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))} : ${result[0]['totalKg']} kg\n
+                        ${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))} : ${result[1]['totalKg']} kg\n
+                        ${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))} : ${result[2]['totalKg']} kg
                         `)
                         let i = 0;
                         //result.forEach(element => {
