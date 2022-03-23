@@ -28,7 +28,7 @@ bot.on('ready', () => {
     bot.user.setStatus("online");
     bot.user.setActivity("Calculer les primes");
 
-    var job = new CronJob('0 7,8 23 * * *', function () {
+    var job = new CronJob('0 0 13,19 * * *', function () {
         let channel = bot.channels.cache.get('954146765047750676'); // channel General-Hrp
         db.pool.getConnection(function(err, connection) {
             var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
