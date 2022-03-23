@@ -71,10 +71,6 @@ bot.on('ready', () => {
         });
     })
     }, null, true, 'Europe/Paris')
-    job.setTime(new CronTime('0 03 23 * * *'))
-    job.setTime(new CronTime('0 04 23 * * *'))
-    job.setTime(new CronTime('0 0 13 * * *')) // Envoi a 13:00:00
-    job.setTime(new CronTime('0 0 19 * * *')) // Envoi a 19:00:00
     job.start();
 });
 
