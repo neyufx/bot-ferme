@@ -33,7 +33,6 @@ module.exports = {
                         function capitalizeFirstLetter(string) {
                             return string[0].toUpperCase() + string.slice(1);
                         }
-                        console.log(result[0]['nomRp']);
                         const embedMessage = new MessageEmbed()
                         .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :`)
                         .setDescription(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :
