@@ -24,10 +24,10 @@ module.exports = {
             }else{var result = arg1;}
             const file = new MessageAttachment("./images/logo.png");
             const embedMessage = new MessageEmbed()
-            .setTitle("── 🌾 Ajout de kilos 🌾 ──")
+            .setTitle("──── 🌾 Ajout de kilos 🌾 ────")
             .setColor("#E67E22")
-            .setDescription("Ajout de : "+arg1+" \nTotal de : "+result+" kilos")
-            .setFooter('Ferme',"attachment://logo.png");
+            .setDescription("Ajout de : "+arg1+" kg \nTotal de : "+result+" kg")
+            .setFooter('Ferme', file);
             message.channel.send({embeds: [embedMessage]});
           // When done with the connection, release it.
           connection.release();
