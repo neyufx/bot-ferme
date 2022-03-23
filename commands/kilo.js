@@ -22,10 +22,12 @@ module.exports = {
               var result = parseInt(results[0]['totalQuantite'])+parseInt(arg1)
               
             }else{var result = arg1;}
+            const file = new MessageAttachment("./images/logo.png");
             const embedMessage = new MessageEmbed()
-            .setTitle("Ajout de kilos 🌾")
+            .setTitle("── 🌾 Ajout de kilos 🌾 ──")
             .setColor("#E67E22")
-            .setDescription("Ajout de "+arg1+" kilos pour un total de "+result+" kilos");
+            .setDescription("Ajout de : "+arg1+" \nTotal de : "+result+" kilos")
+            .setFooter({ text: 'Ferme', iconURL:  "attachment://logo.png"});
             message.channel.send({embeds: [embedMessage]});
           // When done with the connection, release it.
           connection.release();
