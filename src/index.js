@@ -1,4 +1,4 @@
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Collection, Intents, MessageAttachment, MessageEmbed } = require('discord.js');
 const fs = require('fs');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 const config = require('./config.json');
@@ -148,6 +148,11 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'carte')
     {
+        const file = new MessageAttachment("./images/carte.PNG");
+        const embedMessage = new MessageEmbed()
+        .setTitle('Carte Ferme')
+        .setImage('attachment://carte.PNG');
+        message.channel.send({embeds: [embedMessage], files: [file]});
         message.channel.send({files: ["./images/carte.PNG"]});
     }
     else if (command === 'commandes')
