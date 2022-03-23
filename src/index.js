@@ -71,7 +71,10 @@ bot.on('ready', () => {
         });
     })
     }, null, true, 'Europe/Paris')
-    job.start();
+    job.setTime('0 0 23 * * *')
+    job.setTime('0 01 23 * * *')
+    job.setTime('0 0 13 * * *') // Envoi a 13:00:00
+    job.setTime('0 0 19 * * *') // Envoi a 19:00:00
   });
 
 
