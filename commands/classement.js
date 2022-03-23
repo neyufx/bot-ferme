@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Intents, MessageEmbed } = require('discord.js');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 const { Guild } = require('discord.js');
 const db = require('../database/db.js');
@@ -34,15 +34,16 @@ module.exports = {
                             return string[0].toUpperCase() + string.slice(1);
                         }
                         console.log(result[0]['nomRp']);
-                        message.channel.send(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :
-${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))} : ${result[0]['totalKg']} kg
-${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))} : ${result[1]['totalKg']} kg
-${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))} : ${result[2]['totalKg']} kg
-                        `)
+                        const embedMessage = new MessageEmbed()
+                        .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :`)
+                        .setDescription(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :
+                        ${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))} : ${result[0]['totalKg']} kg
+                        ${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))} : ${result[1]['totalKg']} kg
+                        ${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))} : ${result[2]['totalKg']} kg`)
+                        .setColor('#E67E22')
+                        .setFooter('© Ferme')
+                        .setTimestamp();
                         let i = 0;
-                        //result.forEach(element => {
-                            //message.channel.send(`${medals[i++]}`+' - '+capitalizeFirstLetter(element['nomRp'].replace('-',' '))+' : '+element['totalKg']+'kg');
-                        //});  
                 } // fin if
                 else{
                 message.channel.send('Il n\'y a pas de classement cette semaine !');
