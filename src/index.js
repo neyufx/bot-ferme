@@ -54,11 +54,17 @@ bot.on('ready', () => {
                     function capitalizeFirstLetter(string) {
                         return string[0].toUpperCase() + string.slice(1);
                     }
-                    channel.send(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :`)
-                    let i = 0;
-                    result.forEach(element => {
-                        channel.send(`${medals[i++]}`+' - '+capitalizeFirstLetter(element['nomRp'].replace('-',' '))+' : '+element['totalKg']+'kg');
-                    });  
+                    const embedMessage = new MessageEmbed()
+                        .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} 🏆`)
+                        .addFields(
+                            {name: ` ─`, value: `${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))} : ${result[0]['totalKg']} kg`},
+                            {name: ` ─`, value: `${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))} : ${result[1]['totalKg']} kg`},
+                            {name: ` ─`, value: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))} : ${result[2]['totalKg']} kg`}
+                        )
+                        .setColor('#E67E22')
+                        .setFooter('© Ferme')
+                        .setTimestamp();
+                        message.channel.send({embeds: [embedMessage]}); 
             } // fin if
             else{
             channel.send('Il n\'y a pas de classement cette semaine !');
