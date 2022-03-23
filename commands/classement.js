@@ -33,11 +33,15 @@ module.exports = {
                         function capitalizeFirstLetter(string) {
                             return string[0].toUpperCase() + string.slice(1);
                         }
-                        message.channel.send(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :`)
+                        message.channel.send(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :\n
+                        ${medals[0]} - ${capitalizeFirstLetter(element[0]['nomRp'].replace('-',' '))} : ${element[0]['totalKg']} kg\n
+                        ${medals[1]} - ${capitalizeFirstLetter(element[1]['nomRp'].replace('-',' '))} : ${element[1]['totalKg']} kg\n
+                        ${medals[2]} - ${capitalizeFirstLetter(element[2]['nomRp'].replace('-',' '))} : ${element[2]['totalKg']} kg
+                        `)
                         let i = 0;
-                        result.forEach(element => {
-                            message.channel.send(`${medals[i++]}`+' - '+capitalizeFirstLetter(element['nomRp'].replace('-',' '))+' : '+element['totalKg']+'kg');
-                        });  
+                        //result.forEach(element => {
+                            //message.channel.send(`${medals[i++]}`+' - '+capitalizeFirstLetter(element['nomRp'].replace('-',' '))+' : '+element['totalKg']+'kg');
+                        //});  
                 } // fin if
                 else{
                 message.channel.send('Il n\'y a pas de classement cette semaine !');
