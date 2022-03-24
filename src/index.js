@@ -27,57 +27,6 @@ bot.on('ready', () => {
     console.log(`Connectez en tant que : ${bot.user.tag}!`);
     bot.user.setStatus("online");
     bot.user.setActivity("Calculer les primes");
-
-    var job = new CronJob('0 0 13,19 * * *', function () {
-        let channel = bot.channels.cache.get('954146765047750676'); // channel General-Hrp
-        db.pool.getConnection(function(err, connection) {
-            var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-            var last = first + 6; // last day is the first day + 6
-            var firstdate = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-            var lastdate = new Date(curr.setDate(curr.getDate()+6)).toISOString().slice(0, 10);
-            connection.query(`SELECT employees.nomRp,SUM(quantite) as totalKg
-            FROM dossiers JOIN employees on employee_id = employees.id 
-            WHERE date BETWEEN "${firstdate}" AND "${lastdate}"
-            group by nom
-            ORDER by totalKg desc
-            LIMIT 3`, function(error, result,field) {
-                if (error) throw error;
-                else if (result){
-                    let medals = ['🥇','🥈','🥉']
-                    function dateFormat(date){
-                        var today = new Date(date);
-                        var dd = String(today.getDate()).padStart(2, '0');
-                        var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                        var yyyy = today.getFullYear();
-                        return dd + '/' + mm + '/' + yyyy;
-                    }
-                    function capitalizeFirstLetter(string) {
-                        return string[0].toUpperCase() + string.slice(1);
-                    }
-                    const embedMessage = new MessageEmbed()
-                        .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} 🏆`)
-                        .addFields(
-                            {name: ` ─`, value: `${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))} : ${result[0]['totalKg']} kg`},
-                            {name: ` ─`, value: `${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))} : ${result[1]['totalKg']} kg`},
-                            {name: ` ─`, value: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))} : ${result[2]['totalKg']} kg`}
-                        )
-                        .setColor('#E67E22')
-                        .setFooter('© Ferme')
-                        .setTimestamp();
-                        message.channel.send({embeds: [embedMessage]}); 
-            } // fin if
-            else{
-            channel.send('Il n\'y a pas de classement cette semaine !');
-            }
-            // When done with the connection, release it.
-            connection.release();
-            // Handle error after the release.
-            
-            // Don't use the connection here, it has been returned to the pool.
-        });
-    })
-    }, null, true, 'Europe/Paris')
-    job.start();
 });
 
 
@@ -108,11 +57,11 @@ bot.on('messageCreate', message => {
                 var dd = String(today.getDate()).padStart(2, '0');
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 var yyyy = today.getFullYear();
-                today = yyyy + '/' + mm + '/' + dd;
+                var date = yyyy + '/' + mm + '/' + dd;
                 // Use the connection
                 connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
                     if (result[0] !== undefined){
-                connection.query(`insert into dossiers(numero,quantite,nom,date,employee_id) values("${message.channel.id}","${arg1}","${message.channel.name}","${today}","${result[0]['id']}")`, function (error, results, fields) {
+                connection.query(`insert into dossiers(numero,quantite,nom,date,employee_id) values("${message.channel.id}","${arg1}","${message.channel.name}","${date}","${result[0]['id']}")`, function (error, results, fields) {
                 // When done with the connection, release it.
                 connection.release();
                 // Handle error after the release.
@@ -121,7 +70,7 @@ bot.on('messageCreate', message => {
                 });
             }
             else{
-                message.channel.send('Mauvais channel !')
+                message.channel.send('Mauvais channel !');
             }
                 });
               });
@@ -159,12 +108,19 @@ bot.on('messageCreate', message => {
     {
         const Discord = require("discord.js");
         bot.commands.get('semaine').execute(message,args);
-        const channel = bot.channels.cache.get('935208101014032384'); // id catégorie
+        const channel = bot.channels.cache.get('898683278775713823'); // id catégorie
         channel.children.forEach(e => {
             if(e.name !== undefined)
             {
+                const file = new MessageAttachment("./images/semaine.gif");
+                const embedMessage = new MessageEmbed()
+                        .setTitle('✨ Nouvelle semaine ✨')
+                        .setImage('attachment://semaine.gif')
+                        .setColor('#E67E22')
+                        .setFooter('© Ferme')
+                        .setTimestamp();
                 const channel01 = bot.channels.cache.get(e.id);
-                channel01.send({files: ["./images/semaine.gif"]})
+                channel01.send({embeds: [embedMessage], files: [file]})
             }
         })
         //message.channel.send(`Le bot redémarre...`).then(process.exit(0));
@@ -185,11 +141,11 @@ bot.on('messageCreate', message => {
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = today.getFullYear();
-            today = yyyy + '/' + mm + '/' + dd;
+            date = yyyy + '/' + mm + '/' + dd;
             // Use the connection
             connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
                 if (result[0] !== undefined){
-            connection.query(`insert into primes(date,employee_id) values("${today}","${result[0]['id']}")`, function (error, results, fields) {
+            connection.query(`insert into primes(date,employee_id) values("${date}","${result[0]['id']}")`, function (error, results, fields) {
             // When done with the connection, release it.
             connection.release();
             // Handle error after the release.
@@ -212,7 +168,13 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'commandes')
     {
-        message.channel.send('!user <nomrp> <nomsteam> @taguser\n!kilo <nbkilos>\n!vire\n!pause\n!semaine\n!prime\n!carte\n!steamreg <lien compte steam>\n!steam\n!classement\n!restart\n!salon\n!classement10')
+        const embedMessage = new MessageEmbed()
+        .setTitle('🛠️ Listes des commandes')
+        .setDescription('!user <nomrp> <nomsteam> @taguser\n!kilo <nbkilos>\n!vire\n!pause\n!semaine\n!prime\n!carte\n!steamreg <lien compte steam>\n!steam\n!classement\n!restart\n!salon\n!classement10')
+        .setColor('#E67E22')
+        .setFooter('© Ferme')
+        .setTimestamp();
+        message.channel.send({embeds: [embedMessage]})
     }
     else if (command === 'steamreg')
     {
@@ -228,11 +190,14 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'salon')
     {
-        salons = ['<#954147152823722024>','<#954147198008958976>','<#954147293836238908>','<#954147077791830086>'];
-        salons.forEach(element => {
-            message.channel.send(element);
-        })
-        console.log(salons);
+        const embedMessage = new MessageEmbed()
+        .setTitle('🚪 Salons important')
+        .setDescription('<#954147152823722024>\n<#954147198008958976>\n<#954147293836238908>\n<#954147077791830086>')
+        .set
+        .setColor('#E67E22')
+        .setFooter('© Ferme')
+        .setTimestamp();
+        message.channel.send({embeds: [embedMessage]});
         bot.commands.get('salon').execute(message,args);
     }
     else if (command === 'classement10')
@@ -253,6 +218,57 @@ bot.on('messageCreate', message => {
 }
 
 });
+
+var job = new CronJob('0 0 13,19 * * *', function () {
+    let channel = bot.channels.cache.get('956560037453639760'); // channel General-Hrp
+    db.pool.getConnection(function(err, connection) {
+        var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+        var last = first + 6; // last day is the first day + 6
+        var firstdate = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+        var lastdate = new Date(curr.setDate(curr.getDate()+6)).toISOString().slice(0, 10);
+        connection.query(`SELECT employees.nomRp,SUM(quantite) as totalKg
+        FROM dossiers JOIN employees on employee_id = employees.id 
+        WHERE date BETWEEN "${firstdate}" AND "${lastdate}"
+        group by nom
+        ORDER by totalKg desc
+        LIMIT 3`, function(error, result,field) {
+            if (error) throw error;
+            else if (result){
+                let medals = ['🥇','🥈','🥉']
+                function dateFormat(date){
+                    var today = new Date(date);
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = today.getFullYear();
+                    return dd + '/' + mm + '/' + yyyy;
+                }
+                function capitalizeFirstLetter(string) {
+                    return string[0].toUpperCase() + string.slice(1);
+                }
+                const embedMessage = new MessageEmbed()
+                    .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} 🏆`)
+                    .addFields(
+                        {name: ` ─`, value: `${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))} : ${result[0]['totalKg']} kg`},
+                        {name: ` ─`, value: `${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))} : ${result[1]['totalKg']} kg`},
+                        {name: ` ─`, value: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))} : ${result[2]['totalKg']} kg`}
+                    )
+                    .setColor('#E67E22')
+                    .setFooter('© Ferme')
+                    .setTimestamp();
+                    channel.send({embeds: [embedMessage]});
+        } // fin if
+        else{
+        channel.send('Il n\'y a pas de classement cette semaine !');
+        }
+        // When done with the connection, release it.
+        connection.release();
+        // Handle error after the release.
+        
+        // Don't use the connection here, it has been returned to the pool.
+    });
+})
+}, null, true, 'Europe/Paris')
+job.start();
 
 
 /* Affiche les erreurs dans la console */
