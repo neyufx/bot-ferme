@@ -9,9 +9,9 @@ module.exports = {
     description: 'Donne le steam de l\'employées',
     execute(message,args){
             db.pool.getConnection(function(err, connection) {
-                console.log(err.code+ err.fatal +'------------- TEST');
+                console.log(err+'------------- TEST');
                 connection.query(`SELECT steamlink FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {
-                    console.log(error.code+ error.fatal +'------------- TEST2')
+                    console.log(error+'------------- TEST2')
                     if (result){
                         console.log(result[0])
                         const embedMessage = new MessageEmbed()
@@ -24,9 +24,7 @@ module.exports = {
                     // When done with the connection, release it.
                     connection.release();
                     // Handle error after the release.
-                    if (error){
-                        console.log(error.fatal+' CHUCHU '+error.code);
-                    };
+                    if (error) throw error+'chuchhhhhhhhhhhhhhhhhhhhhhhhhhhheeeeeeeeeeee';
                     // Don't use the connection here, it has been returned to the pool.
                 }else{
                     console.log('mauvais salon');
