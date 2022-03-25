@@ -45,9 +45,8 @@ module.exports = {
 			    allow: ['SEND_MESSAGES','VIEW_CHANNEL',''],
             }
             
-        ],
-        message: {files: ["./images/bienvenue.gif"]}
-        }).then(channel => channel.send({files: [file], embeds: [embedMessage,Salons]}))
+        ]
+        }).then(channel => channel.send({files: [file], embeds: [fileEmbed,Salons]}))
         const embedMessage = new MessageEmbed()
             .setTitle('👨🏽‍🌾 Nouveau Employé 👨🏽‍🌾')
             .setDescription(`Nom et Prénom : ${capitalizeFirstLetter(arg1)}\nSteam : ${arg2}\nID Dossier : ${arg3}`)
