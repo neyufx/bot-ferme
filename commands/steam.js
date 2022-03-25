@@ -9,9 +9,9 @@ module.exports = {
     description: 'Donne le steam de l\'employées',
     execute(message,args){
             db.pool.getConnection(function(err, connection) {
-                console.log(err+'------------- TEST');
+                console.log(err.code+ err.fatal +'------------- TEST');
                 connection.query(`SELECT steamlink FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {
-                    console.log(error+'------------- TEST2')
+                    console.log(error.code+ error.fatal +'------------- TEST2')
                     if (result){
                         console.log(result[0])
                         const embedMessage = new MessageEmbed()
