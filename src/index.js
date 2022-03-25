@@ -202,13 +202,6 @@ bot.on('messageCreate', message => {
     else if (command === 'salon')
     {
         message.delete(1000);
-        const embedMessage = new MessageEmbed()
-        .setTitle('🚪 Salons important')
-        .setDescription('<#954147152823722024>\n<#954147198008958976>\n<#954147293836238908>\n<#954147077791830086>')
-        .setColor('#E67E22')
-        .setFooter('© Ferme')
-        .setTimestamp();
-        message.channel.send({embeds: [embedMessage]});
         bot.commands.get('salon').execute(message,args);
     }
     else if (command === 'classement10')

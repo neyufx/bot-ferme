@@ -1,11 +1,13 @@
-const { Client, Collection, Intents, Channel } = require('discord.js');
+const { Client, Intents, MessageEmbed } = require('discord.js');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { customAlphabet } = require('nanoid');
 const nanoid = customAlphabet('1234567890abcdef', 6);
 const db = require('../database/db.js');
 
-
+function capitalizeFirstLetter(string) {
+    return string[0].toUpperCase() + string.slice(1);
+}
 
 
 module.exports = {
@@ -30,6 +32,13 @@ module.exports = {
         ],
         message: {files: ["./images/bienvenue.gif"]}
         }).then(channel => channel.send({files: ["./images/bienvenue.gif"]}))
+        const embedMessage = new MessageEmbed()
+            .setTitle('👨🏽‍🌾 Nouveau Employé 👨🏽‍🌾')
+            .setDescription(`Nom et Prénom : ${capitalizeFirstLetter(arg1)}`)
+            .setColor('#E67E22')
+            .setFooter('© Ferme')
+            .setTimestamp();
+        message.channel.send({embeds: [embedMessage]});
         message.channel.send("Ajout de User : "+arg1+' '+arg2+' ID='+arg3);
         db.pool.getConnection(function(err, connection) {
             // Use the connection

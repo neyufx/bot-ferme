@@ -10,6 +10,7 @@ module.exports = {
     execute(message,args){
             db.pool.getConnection(function(err, connection) {
                 connection.query(`SELECT steamlink FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {
+                    console.log(error);
                     if (result[0]['steamlink'] != ''){
                         console.log(result[0])
                         const embedMessage = new MessageEmbed()
