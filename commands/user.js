@@ -23,7 +23,6 @@ module.exports = {
         .setColor('#E67E22')
         .setFooter('© Ferme')
         .setTimestamp();
-        message.channel.send({embeds: [embedMessage]});
         message.guild.channels.create(arg3+'-'+arg1, {
             type: 'GUILD_TEXT',
             parent: '935208101014032384', // Créer channel dans la catégorie
