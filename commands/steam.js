@@ -13,16 +13,9 @@ module.exports = {
                 connection.query(`SELECT steamlink FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {
                     console.log(error+' '+result[0]+' '+field[0]+' ------------------')
                     if(result[0]){
-                        
+
                     }else{
-                        const embedMessage = new MessageEmbed()
-                        .setTitle('🔗 Lien Steam')
-                        .setDescription('Le lien steam : '+result[0]['steamlink'] || 'Aucun steam enregistré')
-                        .setColor('#E67E22')
-                        .setFooter('© Ferme')
-                        .setTimestamp();
-                        message.channel.send({embeds: [embedMessage]})
-                    // When done with the connection, release it.
+                        console.log('test')
                     }
                 })
             })
