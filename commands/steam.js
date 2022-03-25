@@ -12,7 +12,6 @@ module.exports = {
                 if(err) throw err;
                 connection.query(`SELECT steamlink FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {
                     if(result[0]){
-                        console.log('yes');
                         const embedMessage = new MessageEmbed()
                         .setTitle('🔗 Lien Steam')
                         .setDescription('Le lien steam : '+result[0]['steamlink'] || 'Aucun steam enregistré')
@@ -21,7 +20,6 @@ module.exports = {
                         .setTimestamp();
                         message.channel.send({embeds: [embedMessage]})
                     }else{
-                        console.log('non')
                         const embedMessage = new MessageEmbed()
                         .setTitle('🔗 Lien Steam')
                         .setDescription('Il n\'y a pas de steam enregistré pour cette employé !')
