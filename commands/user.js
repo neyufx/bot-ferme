@@ -17,12 +17,22 @@ module.exports = {
         let arg1 = args[0];
         let arg2 = args[1];
         let arg3 = nanoid();
+
         const Salons = new MessageEmbed()
         .setTitle('🚪 Salons important')
         .setDescription('<#954147152823722024>\n<#954147198008958976>\n<#954147293836238908>\n<#954147077791830086>')
         .setColor('#E67E22')
         .setFooter('© Ferme')
         .setTimestamp();
+
+        const file = new MessageAttachment("./images/bienvenue.gif");
+                const fileEmbed = new MessageEmbed()
+                        .setTitle('✨ Bienvenue ✨')
+                        .setImage('attachment://bienvenue.gif')
+                        .setColor('#E67E22')
+                        .setFooter('© Ferme')
+                        .setTimestamp();
+
         message.guild.channels.create(arg3+'-'+arg1, {
             type: 'GUILD_TEXT',
             parent: '935208101014032384', // Créer channel dans la catégorie
@@ -37,7 +47,7 @@ module.exports = {
             
         ],
         message: {files: ["./images/bienvenue.gif"]}
-        }).then(channel => channel.send({files: ["./images/bienvenue.gif"], embeds: [Salons]}))
+        }).then(channel => channel.send({files: [file], embeds: [embedMessage,Salons]}))
         const embedMessage = new MessageEmbed()
             .setTitle('👨🏽‍🌾 Nouveau Employé 👨🏽‍🌾')
             .setDescription(`Nom et Prénom : ${capitalizeFirstLetter(arg1)}\nSteam : ${arg2}\nID Dossier : ${arg3}`)
