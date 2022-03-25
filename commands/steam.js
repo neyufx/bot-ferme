@@ -10,8 +10,7 @@ module.exports = {
     execute(message,args){
             db.pool.getConnection(function(err, connection) {
                 connection.query(`SELECT steamlink FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {
-                    console.log(result);
-                    if (result[0]['steamlink'] != ''){
+                    if (result){
                         console.log(result[0])
                         const embedMessage = new MessageEmbed()
                         .setTitle('🔗 Lien Steam')
@@ -25,15 +24,15 @@ module.exports = {
                     // Handle error after the release.
                     if (error) throw error;
                     // Don't use the connection here, it has been returned to the pool.
-                } // fin if
-            else{
-                const embedMessage = new MessageEmbed()
+                }else{
+                    console.log('mauvais salon');
+                    const embedMessage = new MessageEmbed()
                         .setTitle('🔗 Lien Steam')
                         .setDescription('Il n\'y a pas de steam enregistré pour cette employé !')
                         .setColor('#E67E22')
                         .setFooter('© Ferme')
                         .setTimestamp();
-                        message.channel.send({embeds: [embedMessage]})
+                    message.channel.send({embeds: [embedMessage]})
             }
             })
         })
