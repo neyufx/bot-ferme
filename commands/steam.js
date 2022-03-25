@@ -13,6 +13,7 @@ module.exports = {
                 connection.query(`SELECT steamlink FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {
                     console.log(error+'------------- TEST2')
                     if (result){
+                        console.log('TEST 3333333333333333333');
                         console.log(result[0])
                         const embedMessage = new MessageEmbed()
                         .setTitle('🔗 Lien Steam')
