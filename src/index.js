@@ -40,6 +40,7 @@ bot.on('messageCreate', message => {
     /* Si la commande user */
     if(gerantRole){
     if(command === 'user'){ // Commande !user <nomrp> <nomsteam> @taguser
+        message.delete(1000);
         let arg1 = args[0];
         let arg2 = args[1];
         let arg3 = args[2];
@@ -49,6 +50,7 @@ bot.on('messageCreate', message => {
         }
     }else if (command === 'kilo'){
         let arg1 = args[0];
+        message.delete(1000);
         if (arg1){
             if(arg1 < 1001 && arg1 > -501){
             bot.commands.get('kilo').execute(message,args);
@@ -80,6 +82,7 @@ bot.on('messageCreate', message => {
             }
         }
     }else if (command === 'vire'){
+        message.delete(1000);
         const Discord = require("discord.js");
         bot.commands.get('vire').execute(message,args);
         message.channel.send({files: ["./images/vire.gif"]});
@@ -106,6 +109,7 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'semaine')
     {
+        message.delete(1000);
         const Discord = require("discord.js");
         bot.commands.get('semaine').execute(message,args);
         const channel = bot.channels.cache.get('935208101014032384'); // id catégorie
@@ -128,11 +132,13 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'pause')
     {
+        message.delete(1000);
         const Discord = require("discord.js");
         bot.commands.get('pause').execute(message,args);
     }
     else if (command === 'prime')
     {
+        message.delete(1000);
         const Discord = require("discord.js");
         bot.commands.get('prime').execute(message,args);
         message.channel.send({files: ["./images/prime.gif"]});
@@ -158,6 +164,7 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'carte')
     {
+        message.delete(1000);
         const file = new MessageAttachment("./images/carte.PNG");
         const embedMessage = new MessageEmbed()
         .setTitle('🗺️ Carte Ferme')
@@ -179,22 +186,25 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'steamreg')
     {
+        message.delete(1000);
         bot.commands.get('steamreg').execute(message,args);
     }
     else if (command === 'steam')
     {
+        message.delete(1000);
         bot.commands.get('steam').execute(message,args);
     }
     else if (command === 'classement')
     {
+        message.delete(1000);
         bot.commands.get('classement').execute(message,args);
     }
     else if (command === 'salon')
     {
+        message.delete(1000);
         const embedMessage = new MessageEmbed()
         .setTitle('🚪 Salons important')
         .setDescription('<#954147152823722024>\n<#954147198008958976>\n<#954147293836238908>\n<#954147077791830086>')
-        .set
         .setColor('#E67E22')
         .setFooter('© Ferme')
         .setTimestamp();
@@ -203,6 +213,7 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'classement10')
     {
+        message.delete(1000);
         bot.commands.get('classement10').execute(message,args);
     }
     else if (command === 'restart'){
