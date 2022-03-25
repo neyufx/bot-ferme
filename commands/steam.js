@@ -29,8 +29,8 @@ module.exports = {
                         .setTimestamp();
                         message.channel.send({embeds: [embedMessage]})
                     // When done with the connection, release it.
-                    connection.release();
                     }
+                    connection.release();
                 })
             })
     }
