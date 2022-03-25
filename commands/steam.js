@@ -12,6 +12,11 @@ module.exports = {
                 if(err) throw err;
                 connection.query(`SELECT steamlink FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {
                     console.log(error+' '+result[0]+' '+field[0]+' ------------------')
+                    if(result[0]){
+                        console.log('yes');
+                    }else{
+                        console.log('no');
+                    }
                 })
             })
     }
