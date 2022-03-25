@@ -20,6 +20,7 @@ module.exports = {
                         .setFooter('© Ferme')
                         .setTimestamp();
                     message.channel.send({embeds: [embedMessage]})
+                    connection.end();
                     }else{
                         const embedMessage = new MessageEmbed()
                         .setTitle('🔗 Lien Steam')
