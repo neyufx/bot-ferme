@@ -20,7 +20,6 @@ module.exports = {
                         .setFooter('© Ferme')
                         .setTimestamp();
                     message.channel.send({embeds: [embedMessage]})
-                    connection.end();
                     }else{
                         const embedMessage = new MessageEmbed()
                         .setTitle('🔗 Lien Steam')
@@ -31,7 +30,6 @@ module.exports = {
                         message.channel.send({embeds: [embedMessage]})
                     // When done with the connection, release it.
                     }
-                    connection.release();
                 })
             })
     }
