@@ -25,7 +25,7 @@ module.exports = {
                     connection.release();
                     // Handle error after the release.
                     if (error){
-                        console.log('pinne ta mere');
+                        console.log(error.fatal+' CHUCHU '+error.code);
                     };
                     // Don't use the connection here, it has been returned to the pool.
                 }else{
