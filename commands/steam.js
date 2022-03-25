@@ -11,7 +11,7 @@ module.exports = {
             db.pool.getConnection(function(err, connection) {
                 if(err) throw err;
                 connection.query(`SELECT steamlink FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {
-                    console.log(error+' '+result+' '+field+' ------------------')
+                    console.log(error+' '+result[0]+' '+field+' ------------------')
                 })
             })
     }
