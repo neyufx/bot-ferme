@@ -1,4 +1,4 @@
-const { Client, Intents, MessageEmbed } = require('discord.js');
+const { Client, Intents, MessageEmbed, MessageAttachment } = require('discord.js');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { customAlphabet } = require('nanoid');
