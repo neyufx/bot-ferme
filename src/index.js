@@ -108,7 +108,7 @@ bot.on('messageCreate', message => {
     {
         const Discord = require("discord.js");
         bot.commands.get('semaine').execute(message,args);
-        const channel = bot.channels.cache.get('898683278775713823'); // id catégorie
+        const channel = bot.channels.cache.get('935208101014032384'); // id catégorie
         channel.children.forEach(e => {
             if(e.name !== undefined)
             {
@@ -168,6 +168,7 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'commandes')
     {
+        message.delete(1000);
         const embedMessage = new MessageEmbed()
         .setTitle('🛠️ Listes des commandes')
         .setDescription('!user <nomrp> <nomsteam> @taguser\n!kilo <nbkilos>\n!vire\n!pause\n!semaine\n!prime\n!carte\n!steamreg <lien compte steam>\n!steam\n!classement\n!restart\n!salon\n!classement10')
@@ -220,7 +221,7 @@ bot.on('messageCreate', message => {
 });
 
 var job = new CronJob('0 0 13,19 * * *', function () {
-    let channel = bot.channels.cache.get('956560037453639760'); // channel General-Hrp
+    let channel = bot.channels.cache.get('954146765047750676'); // channel General-Hrp
     db.pool.getConnection(function(err, connection) {
         var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
         var last = first + 6; // last day is the first day + 6
