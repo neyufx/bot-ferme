@@ -51,12 +51,12 @@ bot.on('messageCreate', message => {
     }else if (command === 'kilo'){
         let arg1 = args[0];
         var today = new Date();
-        var annee   = today.getFullYear().toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
-        var mois    = ('0'+today.getMonth()+1).toLocaleString("fr-FR", {timeZone: "Europe/Paris"}).slice(-2);
-        var jour    = ('0'+today.getDate()   ).toLocaleString("fr-FR", {timeZone: "Europe/Paris"}).slice(-2);
-        var heure   = ('0'+today.getHours()  ).toLocaleString("fr-FR", {timeZone: "Europe/Paris"}).slice(-2);
-        var minute  = ('0'+today.getMinutes()).toLocaleString("fr-FR", {timeZone: "Europe/Paris"}).slice(-2);
-        var seconde = ('0'+today.getSeconds()).toLocaleString("fr-FR", {timeZone: "Europe/Paris"}).slice(-2);
+        var annee   = today.getFullYear();
+        var mois    = ('0'+today.getMonth()+1).slice(-2);
+        var jour    = ('0'+today.getDate()   ).slice(-2);
+        var heure   = ('0'+today.getHours()  ).slice(-2);
+        var minute  = ('0'+today.getMinutes()).slice(-2);
+        var seconde = ('0'+today.getSeconds()).slice(-2);
         const channelLog = bot.channels.cache.get('957211720831619092');
         const embedLogs = new MessageEmbed()
                         .setTitle(' ⚙️ Logs Ferme')
