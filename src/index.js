@@ -50,7 +50,17 @@ bot.on('messageCreate', message => {
         }
     }else if (command === 'kilo'){
         let arg1 = args[0];
-        message.delete(1000);
+        var today = new Date();
+        var dateLog = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var timeLog = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        const channelLog = bot.channels.cache.get('935208101014032384');
+        const embedLogs = new MessageEmbed()
+                        .setTitle('✨ Logs Ferme ✨')
+                        .setDescription(`Commande Kilo\nAuteur : ${message.author.tag}\nNombre de kilos : ${arg1}\nSalon : ${message.channel.name}\nDate : ${dateLog+' '+timeLog}`)
+                        .setColor('#E67E22')
+                        .setFooter('© Ferme')
+                        .setTimestamp();
+        channelLog.send({embeds: [embedLogs]})
         if (arg1){
             if(arg1 < 1001 && arg1 > -501){
             bot.commands.get('kilo').execute(message,args);
