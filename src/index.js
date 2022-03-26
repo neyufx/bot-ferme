@@ -51,8 +51,8 @@ bot.on('messageCreate', message => {
     }else if (command === 'kilo'){
         let arg1 = args[0];
         var dateLogs = new Date();
-        var dateLog = dateLogs.getFullYear()+'-'+(dateLogs.getMonth()+1)+'-'+dateLogs.getDate();
-        var hours = (dateLogs.getHours()+1) + ":" + dateLogs.getMinutes() + ":" + dateLogs.getSeconds();
+        var dateLog = dateLogs.getFullYear()+'-'+(dateLogs.getMonth()+1).slice(-2)+'-'+dateLogs.getDate().slice(-2);
+        var hours = (dateLogs.getHours()+1).slice(-2) + ":" + dateLogs.getMinutes().slice(-2) + ":" + dateLogs.getSeconds().slice(-2);
         var totalHour = dateLog+' '+hours;
         const channelLog = bot.channels.cache.get('957211720831619092');
         const embedLogs = new MessageEmbed()
