@@ -50,13 +50,13 @@ bot.on('messageCreate', message => {
         }
     }else if (command === 'kilo'){
         let arg1 = args[0];
-        var dateLogs = new Date().toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
-        var annee   = dateLogs.getFullYear();
-        var mois    = ('0'+dateLogs.getMonth()+1).slice(-2);
-        var jour    = ('0'+dateLogs.getDate()   ).slice(-2);
-        var heure   = ('0'+dateLogs.getHours()+1).slice(-2);
-        var minute  = ('0'+dateLogs.getMinutes()).slice(-2);
-        var seconde = ('0'+dateLogs.getSeconds()).slice(-2);
+        var today = new Date().toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
+        var annee   = today.getFullYear();
+        var mois    = ('0'+today.getMonth()+1).slice(-2);
+        var jour    = ('0'+today.getDate()   ).slice(-2);
+        var heure   = ('0'+today.getHours()+1).slice(-2);
+        var minute  = ('0'+today.getMinutes()).slice(-2);
+        var seconde = ('0'+today.getSeconds()).slice(-2);
         const channelLog = bot.channels.cache.get('957211720831619092');
         const embedLogs = new MessageEmbed()
                         .setTitle(' ⚙️ Logs Ferme')
