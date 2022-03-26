@@ -51,12 +51,18 @@ bot.on('messageCreate', message => {
     }else if (command === 'kilo'){
         let arg1 = args[0];
         var today = new Date();
-        var dateLog = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        var dateLog = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
         var timeLog = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         const channelLog = bot.channels.cache.get('957211720831619092');
         const embedLogs = new MessageEmbed()
-                        .setTitle('✨ Logs Ferme ✨')
-                        .setDescription(`Commande Kilo\nAuteur : ${message.author.tag}\nNombre de kilos : ${arg1}\nSalon : ${message.channel.name}\nDate : ${dateLog+' '+timeLog}`)
+                        .setTitle('── ⚙️ Logs Ferme ⚙️ ──')
+                        .setDescription(`Commande Kilo`)
+                        .addFields(
+                            {name: 'Auteur', value:`${message.author.tag}`},
+                            {name: 'Nombre de kilos', value:`${arg1+'kg'}`},
+                            {name: 'Salon', value:`${message.channel.name}`},
+                            {name: 'Date', value:`${today.toLocaleString()}`}
+                        )
                         .setColor('#E67E22')
                         .setFooter('© Ferme')
                         .setTimestamp();
