@@ -54,7 +54,7 @@ bot.on('messageCreate', message => {
         var annee   = today.getFullYear();
         var mois    = ('0'+today.getMonth()+1).slice(-2);
         var jour    = ('0'+today.getDate()   ).slice(-2);
-        var heure   = ('0'+today.getHours()+1).slice(-2);
+        var heure   = ('0'+today.getHours()  ).slice(-2);
         var minute  = ('0'+today.getMinutes()).slice(-2);
         var seconde = ('0'+today.getSeconds()).slice(-2);
         const channelLog = bot.channels.cache.get('957211720831619092');
@@ -68,17 +68,17 @@ bot.on('messageCreate', message => {
                             {name: 'Date', value:`${jour+'/'+mois+'/'+annee+' à '+heure+':'+minute+':'+seconde}`}
                         )
                         .setColor('#E67E22')
-                        .setFooter({text:'© Ferme'})
+                        .setFooter('© Ferme')
                         .setTimestamp();
         channelLog.send({embeds: [embedLogs]})
         if (arg1){
             if(arg1 < 1001 && arg1 > -501){
             bot.commands.get('kilo').execute(message,args);
             db.pool.getConnection(function(err, connection) {
-                var dateLogs = new Date();
-                var dd = String(dateLogs.getDate()).padStart(2, '0');
-                var mm = String(dateLogs.getMonth() + 1).padStart(2, '0'); //January is 0!
-                var yyyy = dateLogs.getFullYear();
+                var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
                 var date = yyyy + '/' + mm + '/' + dd;
                 // Use the connection
                 connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
@@ -106,19 +106,19 @@ bot.on('messageCreate', message => {
         const Discord = require("discord.js");
         bot.commands.get('vire').execute(message,args);
         message.channel.send({files: ["./images/vire.gif"]});
-        var dateLogs = new Date();
-                var dd = String(dateLogs.getDate()).padStart(2, '0');
-                var mm = String(dateLogs.getMonth() + 1).padStart(2, '0'); //January is 0!
-                var yyyy = dateLogs.getFullYear();
-                dateLogs = yyyy + '/' + mm + '/' + dd;
+        var today = new Date();
+                var dd = String(today.getDate()).padStart(2, '0');
+                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = today.getFullYear();
+                today = yyyy + '/' + mm + '/' + dd;
                 db.pool.getConnection(function(err, connection) {
-                    var dateLogs = new Date();
-                    var dd = String(dateLogs.getDate()).padStart(2, '0');
-                    var mm = String(dateLogs.getMonth() + 1).padStart(2, '0'); //January is 0!
-                    var yyyy = dateLogs.getFullYear();
-                    dateLogs = yyyy + '/' + mm + '/' + dd;
+                    var today = new Date();
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = today.getFullYear();
+                    today = yyyy + '/' + mm + '/' + dd;
                     // Use the connection     
-                    connection.query(`UPDATE employees SET isViree = "${dateLogs}" WHERE nomDossier = "${message.channel.name}"`, function (error, results, fields) {
+                    connection.query(`UPDATE employees SET isViree = "${today}" WHERE nomDossier = "${message.channel.name}"`, function (error, results, fields) {
                     // When done with the connection, release it.
                     connection.release();
                     // Handle error after the release.
@@ -141,7 +141,7 @@ bot.on('messageCreate', message => {
                         .setTitle('✨ Nouvelle semaine ✨')
                         .setImage('attachment://semaine.gif')
                         .setColor('#E67E22')
-                        .setFooter({text:'© Ferme'})
+                        .setFooter('© Ferme')
                         .setTimestamp();
                 const channel01 = bot.channels.cache.get(e.id);
                 channel01.send({embeds: [embedMessage], files: [file]})
@@ -163,10 +163,10 @@ bot.on('messageCreate', message => {
         bot.commands.get('prime').execute(message,args);
         message.channel.send({files: ["./images/prime.gif"]});
         db.pool.getConnection(function(err, connection) {
-            var dateLogs = new Date();
-            var dd = String(dateLogs.getDate()).padStart(2, '0');
-            var mm = String(dateLogs.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var yyyy = dateLogs.getFullYear();
+            var today = new Date();
+            var dd = String(today.getDate()).padStart(2, '0');
+            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = today.getFullYear();
             date = yyyy + '/' + mm + '/' + dd;
             // Use the connection
             connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
@@ -200,7 +200,7 @@ bot.on('messageCreate', message => {
         .setTitle('🛠️ Listes des commandes')
         .setDescription('!user <nomrp> <nomsteam> @taguser\n!kilo <nbkilos>\n!vire\n!pause\n!semaine\n!prime\n!carte\n!steamreg <lien compte steam>\n!steam\n!classement\n!restart\n!salon\n!classement10')
         .setColor('#E67E22')
-        .setFooter({text:'© Ferme'})
+        .setFooter('© Ferme')
         .setTimestamp();
         message.channel.send({embeds: [embedMessage]})
     }
@@ -261,10 +261,10 @@ var job = new CronJob('0 0 13,19 * * *', function () {
             else if (result){
                 let medals = ['🥇','🥈','🥉']
                 function dateFormat(date){
-                    var dateLogs = new Date(date);
-                    var dd = String(dateLogs.getDate()).padStart(2, '0');
-                    var mm = String(dateLogs.getMonth() + 1).padStart(2, '0'); //January is 0!
-                    var yyyy = dateLogs.getFullYear();
+                    var today = new Date(date);
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = today.getFullYear();
                     return dd + '/' + mm + '/' + yyyy;
                 }
                 function capitalizeFirstLetter(string) {
@@ -278,7 +278,7 @@ var job = new CronJob('0 0 13,19 * * *', function () {
                         {name: ` ─`, value: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))} : ${result[2]['totalKg']} kg`}
                     )
                     .setColor('#E67E22')
-                    .setFooter({text:'© Ferme'})
+                    .setFooter('© Ferme')
                     .setTimestamp();
                     channel.send({embeds: [embedMessage]});
         } // fin if
