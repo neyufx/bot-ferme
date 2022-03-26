@@ -53,7 +53,7 @@ bot.on('messageCreate', message => {
         var today = new Date();
         var dateLog = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
         var timeLog = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        const channelLog = bot.channels.cache.get('935208101014032384');
+        const channelLog = bot.channels.cache.get('957211720831619092');
         const embedLogs = new MessageEmbed()
                         .setTitle('✨ Logs Ferme ✨')
                         .setDescription(`Commande Kilo\nAuteur : ${message.author.tag}\nNombre de kilos : ${arg1}\nSalon : ${message.channel.name}\nDate : ${dateLog+' '+timeLog}`)
