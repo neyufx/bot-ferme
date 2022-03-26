@@ -268,9 +268,9 @@ var job = new CronJob('0 0 13,19 * * *', function () {
                 const embedMessage = new MessageEmbed()
                     .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} 🏆`)
                     .addFields(
-                        {name: ` ─`, value: `${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))} : ${result[0]['totalKg']} kg`},
-                        {name: ` ─`, value: `${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))} : ${result[1]['totalKg']} kg`},
-                        {name: ` ─`, value: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))} : ${result[2]['totalKg']} kg`}
+                        {name: `${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))}`, value: `Total : ${result[0]['totalKg']} kg`},
+                        {name: `${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))}`, value: `Total : ${result[1]['totalKg']} kg`},
+                        {name: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))}`, value: `Total : ${result[2]['totalKg']} kg`}
                     )
                     .setColor('#E67E22')
                     .setFooter({text:'© Ferme'})
