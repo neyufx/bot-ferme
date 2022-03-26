@@ -50,10 +50,13 @@ bot.on('messageCreate', message => {
         }
     }else if (command === 'kilo'){
         let arg1 = args[0];
-        var dateLogs = new Date();
-        var dateLog = dateLogs.getFullYear()+'-'+(dateLogs.getMonth()+1).slice(-2)+'-'+dateLogs.getDate().slice(-2);
-        var hours = (dateLogs.getHours()+1).slice(-2) + ":" + dateLogs.getMinutes().slice(-2) + ":" + dateLogs.getSeconds().slice(-2);
-        var totalHour = dateLog+' '+hours;
+        var dateLogs = new Date().toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
+        var annee   = dateLogs.getFullYear();
+        var mois    = ('0'+dateLogs.getMonth()+1).slice(-2);
+        var jour    = ('0'+dateLogs.getDate()   ).slice(-2);
+        var heure   = ('0'+dateLogs.getHours()+1).slice(-2);
+        var minute  = ('0'+dateLogs.getMinutes()).slice(-2);
+        var seconde = ('0'+dateLogs.getSeconds()).slice(-2);
         const channelLog = bot.channels.cache.get('957211720831619092');
         const embedLogs = new MessageEmbed()
                         .setTitle(' ⚙️ Logs Ferme')
@@ -62,7 +65,7 @@ bot.on('messageCreate', message => {
                             {name: 'Auteur', value:`${message.author.tag}`},
                             {name: 'Nombre de kilos', value:`${arg1+'kg'}`},
                             {name: 'Salon', value:`${message.channel.name}`},
-                            {name: 'Date', value:`${totalHour}`}
+                            {name: 'Date', value:`${jour+'/'+mois+'/'+annee+' à '+heure+':'+minute+':'+seconde}`}
                         )
                         .setColor('#E67E22')
                         .setFooter({text:'© Ferme'})
@@ -72,10 +75,10 @@ bot.on('messageCreate', message => {
             if(arg1 < 1001 && arg1 > -501){
             bot.commands.get('kilo').execute(message,args);
             db.pool.getConnection(function(err, connection) {
-                var today = new Date();
-                var dd = String(today.getDate()).padStart(2, '0');
-                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                var yyyy = today.getFullYear();
+                var dateLogs = new Date();
+                var dd = String(dateLogs.getDate()).padStart(2, '0');
+                var mm = String(dateLogs.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = dateLogs.getFullYear();
                 var date = yyyy + '/' + mm + '/' + dd;
                 // Use the connection
                 connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
@@ -103,19 +106,19 @@ bot.on('messageCreate', message => {
         const Discord = require("discord.js");
         bot.commands.get('vire').execute(message,args);
         message.channel.send({files: ["./images/vire.gif"]});
-        var today = new Date();
-                var dd = String(today.getDate()).padStart(2, '0');
-                var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                var yyyy = today.getFullYear();
-                today = yyyy + '/' + mm + '/' + dd;
+        var dateLogs = new Date();
+                var dd = String(dateLogs.getDate()).padStart(2, '0');
+                var mm = String(dateLogs.getMonth() + 1).padStart(2, '0'); //January is 0!
+                var yyyy = dateLogs.getFullYear();
+                dateLogs = yyyy + '/' + mm + '/' + dd;
                 db.pool.getConnection(function(err, connection) {
-                    var today = new Date();
-                    var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                    var yyyy = today.getFullYear();
-                    today = yyyy + '/' + mm + '/' + dd;
+                    var dateLogs = new Date();
+                    var dd = String(dateLogs.getDate()).padStart(2, '0');
+                    var mm = String(dateLogs.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = dateLogs.getFullYear();
+                    dateLogs = yyyy + '/' + mm + '/' + dd;
                     // Use the connection     
-                    connection.query(`UPDATE employees SET isViree = "${today}" WHERE nomDossier = "${message.channel.name}"`, function (error, results, fields) {
+                    connection.query(`UPDATE employees SET isViree = "${dateLogs}" WHERE nomDossier = "${message.channel.name}"`, function (error, results, fields) {
                     // When done with the connection, release it.
                     connection.release();
                     // Handle error after the release.
@@ -160,10 +163,10 @@ bot.on('messageCreate', message => {
         bot.commands.get('prime').execute(message,args);
         message.channel.send({files: ["./images/prime.gif"]});
         db.pool.getConnection(function(err, connection) {
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var yyyy = today.getFullYear();
+            var dateLogs = new Date();
+            var dd = String(dateLogs.getDate()).padStart(2, '0');
+            var mm = String(dateLogs.getMonth() + 1).padStart(2, '0'); //January is 0!
+            var yyyy = dateLogs.getFullYear();
             date = yyyy + '/' + mm + '/' + dd;
             // Use the connection
             connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
@@ -258,10 +261,10 @@ var job = new CronJob('0 0 13,19 * * *', function () {
             else if (result){
                 let medals = ['🥇','🥈','🥉']
                 function dateFormat(date){
-                    var today = new Date(date);
-                    var dd = String(today.getDate()).padStart(2, '0');
-                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-                    var yyyy = today.getFullYear();
+                    var dateLogs = new Date(date);
+                    var dd = String(dateLogs.getDate()).padStart(2, '0');
+                    var mm = String(dateLogs.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = dateLogs.getFullYear();
                     return dd + '/' + mm + '/' + yyyy;
                 }
                 function capitalizeFirstLetter(string) {
