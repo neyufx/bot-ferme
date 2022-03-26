@@ -51,7 +51,6 @@ bot.on('messageCreate', message => {
     }else if (command === 'kilo'){
         let arg1 = args[0];
         var dateLogs = new Date();
-        dateLogs.setTime( dateLogs.getTime() - new Date().getTimezoneOffset()*60*1000 )
         const channelLog = bot.channels.cache.get('957211720831619092');
         const embedLogs = new MessageEmbed()
                         .setTitle(' ⚙️ Logs Ferme')
