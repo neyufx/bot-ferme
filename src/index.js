@@ -59,7 +59,7 @@ bot.on('messageCreate', message => {
                             {name: 'Auteur', value:`${message.author.tag}`},
                             {name: 'Nombre de kilos', value:`${arg1+'kg'}`},
                             {name: 'Salon', value:`${message.channel.name}`},
-                            {name: 'Date', value:`${dateLogs.toLocaleDateString('fr-FR', {year:"numeric",month:"2-digit",day:"2-digit"})+' '+dateLogs.toLocaleTimeString('fr-FR',{hour:"2-digit",minute:"2-digit",second:"2-digit"})}`}
+                            {name: 'Date', value:`${dateLogs.toLocaleDateString('fr-FR', {year:"numeric",month:"2-digit",day:"2-digit", timeZone: 'UTC'})+' à '+dateLogs.toLocaleTimeString('fr-FR',{hour:"2-digit",minute:"2-digit",second:"2-digit", timeZone:'UTC'})}`}
                         )
                         .setColor('#E67E22')
                         .setFooter({text:'© Ferme'})
