@@ -50,7 +50,7 @@ bot.on('messageCreate', message => {
         }
     }else if (command === 'kilo'){
         let arg1 = args[0];
-        var today = new Date();
+        var today = new Date().toLocaleString("fr-FR", {timeZone: "Europe/Paris"});
         var annee   = today.getFullYear();
         var mois    = ('0'+today.getMonth()+1).slice(-2);
         var jour    = ('0'+today.getDate()   ).slice(-2);
