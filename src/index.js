@@ -51,7 +51,6 @@ bot.on('messageCreate', message => {
     }else if (command === 'kilo'){
         let arg1 = args[0];
         var dateLogs = new Date();
-        console.log(dateLogs.getTimezoneOffset);
         const channelLog = bot.channels.cache.get('957211720831619092');
         const embedLogs = new MessageEmbed()
                         .setTitle(' ⚙️ Logs Ferme')
@@ -60,7 +59,7 @@ bot.on('messageCreate', message => {
                             {name: 'Auteur', value:`${message.author.tag}`},
                             {name: 'Nombre de kilos', value:`${arg1+'kg'}`},
                             {name: 'Salon', value:`${message.channel.name}`},
-                            {name: 'Date', value:`${dateLogs.toLocaleDateString('fr-FR')+' à '+dateLogs.toLocaleTimeString('fr-FR')}`}
+                            {name: 'Date', value:`${dateLogs.setTime( dateLogs.getTime() - new Date().getTimezoneOffset()*60*1000 )}`}
                         )
                         .setColor('#E67E22')
                         .setFooter('© Ferme')
