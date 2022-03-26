@@ -51,6 +51,9 @@ bot.on('messageCreate', message => {
     }else if (command === 'kilo'){
         let arg1 = args[0];
         var dateLogs = new Date();
+        var dateLog = dateLogs.getFullYear()+'-'+(dateLogs.getMonth()+1)+'-'+dateLogs.getDate();
+        var hours = (dateLogs.getHours()+1) + ":" + dateLogs.getMinutes() + ":" + dateLogs.getSeconds();
+        var totalHour = dateLog+' '+hours;
         const channelLog = bot.channels.cache.get('957211720831619092');
         const embedLogs = new MessageEmbed()
                         .setTitle(' ⚙️ Logs Ferme')
@@ -59,7 +62,7 @@ bot.on('messageCreate', message => {
                             {name: 'Auteur', value:`${message.author.tag}`},
                             {name: 'Nombre de kilos', value:`${arg1+'kg'}`},
                             {name: 'Salon', value:`${message.channel.name}`},
-                            {name: 'Date', value:`${dateLogs.toLocaleDateString('fr-FR')+' à '+(dateLogs.toLocaleTimeString('fr-FR')+1)}`}
+                            {name: 'Date', value:`${totalHour}`}
                         )
                         .setColor('#E67E22')
                         .setFooter('© Ferme')
