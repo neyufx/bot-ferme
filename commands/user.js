@@ -24,7 +24,7 @@ module.exports = {
         .setDescription('🚪 Salons important\n<#954147152823722024>\n<#954147198008958976>\n<#954147293836238908>\n<#954147077791830086>')
         .setImage('attachment://bienvenue.gif')
         .setColor('#E67E22')
-        .setFooter('© Ferme')
+        .setFooter({text:'© Ferme'})
         .setTimestamp();
 
         message.guild.channels.create(arg3+'-'+arg1, {
@@ -46,7 +46,7 @@ module.exports = {
             .setTitle('👨🏽‍🌾 Nouveau Employé 👨🏽‍🌾')
             .setDescription(`Nom et Prénom : ${capitalizeFirstLetter(arg1)}\nSteam : ${arg2}\nID Dossier : ${arg3}`)
             .setColor('#E67E22')
-            .setFooter('© Ferme')
+            .setFooter({text:'© Ferme'})
             .setTimestamp();
         message.channel.send({embeds: [embedMessage]});
         db.pool.getConnection(function(err, connection) {

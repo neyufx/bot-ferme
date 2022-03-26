@@ -65,7 +65,7 @@ bot.on('messageCreate', message => {
                             {name: 'Date', value:`${totalHour}`}
                         )
                         .setColor('#E67E22')
-                        .setFooter('© Ferme')
+                        .setFooter({text:'© Ferme'})
                         .setTimestamp();
         channelLog.send({embeds: [embedLogs]})
         if (arg1){
@@ -138,7 +138,7 @@ bot.on('messageCreate', message => {
                         .setTitle('✨ Nouvelle semaine ✨')
                         .setImage('attachment://semaine.gif')
                         .setColor('#E67E22')
-                        .setFooter('© Ferme')
+                        .setFooter({text:'© Ferme'})
                         .setTimestamp();
                 const channel01 = bot.channels.cache.get(e.id);
                 channel01.send({embeds: [embedMessage], files: [file]})
@@ -197,7 +197,7 @@ bot.on('messageCreate', message => {
         .setTitle('🛠️ Listes des commandes')
         .setDescription('!user <nomrp> <nomsteam> @taguser\n!kilo <nbkilos>\n!vire\n!pause\n!semaine\n!prime\n!carte\n!steamreg <lien compte steam>\n!steam\n!classement\n!restart\n!salon\n!classement10')
         .setColor('#E67E22')
-        .setFooter('© Ferme')
+        .setFooter({text:'© Ferme'})
         .setTimestamp();
         message.channel.send({embeds: [embedMessage]})
     }
@@ -275,7 +275,7 @@ var job = new CronJob('0 0 13,19 * * *', function () {
                         {name: ` ─`, value: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))} : ${result[2]['totalKg']} kg`}
                     )
                     .setColor('#E67E22')
-                    .setFooter('© Ferme')
+                    .setFooter({text:'© Ferme'})
                     .setTimestamp();
                     channel.send({embeds: [embedMessage]});
         } // fin if

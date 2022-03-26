@@ -41,7 +41,7 @@ module.exports = {
                             {name: ` ─`, value: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))} : ${result[2]['totalKg']} kg`}
                         )
                         .setColor('#E67E22')
-                        .setFooter('© Ferme')
+                        .setFooter({text:'© Ferme'})
                         .setTimestamp();
                         message.channel.send({embeds: [embedMessage]});
                 } // fin if
