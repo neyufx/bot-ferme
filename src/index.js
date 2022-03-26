@@ -51,17 +51,21 @@ bot.on('messageCreate', message => {
     }else if (command === 'kilo'){
         let arg1 = args[0];
         var today = new Date();
-        var dateLog = today.getDate()+'/'+(today.getMonth()+1)+'/'+today.getFullYear();
-        var timeLog = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        var annee   = today.getFullYear();
+        var mois    = ('0'+today.getMonth()+1).slice(-2);
+        var jour    = ('0'+today.getDate()   ).slice(-2);
+        var heure   = ('0'+today.getHours()  ).slice(-2);
+        var minute  = ('0'+today.getMinutes()).slice(-2);
+        var seconde = ('0'+today.getSeconds()).slice(-2);
         const channelLog = bot.channels.cache.get('957211720831619092');
         const embedLogs = new MessageEmbed()
-                        .setTitle('── ⚙️ Logs Ferme ⚙️ ──')
+                        .setTitle(' ⚙️ Logs Ferme')
                         .setDescription(`Commande Kilo`)
                         .addFields(
                             {name: 'Auteur', value:`${message.author.tag}`},
                             {name: 'Nombre de kilos', value:`${arg1+'kg'}`},
                             {name: 'Salon', value:`${message.channel.name}`},
-                            {name: 'Date', value:`${today.toLocaleString()}`}
+                            {name: 'Date', value:`${jour+'/'+mois+'/'+annee+' à '+heure+':'+minute+':'+seconde}`}
                         )
                         .setColor('#E67E22')
                         .setFooter('© Ferme')
