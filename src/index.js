@@ -60,7 +60,7 @@ bot.on('messageCreate', message => {
                             {name: 'Auteur', value:`${message.author.tag}`},
                             {name: 'Nombre de kilos', value:`${arg1+'kg'}`},
                             {name: 'Salon', value:`${message.channel.name}`},
-                            {name: 'Date', value:`${dateLogs.toLocaleDateString('fr-FR')+' à '+dateLogs.toLocaleTimeString('fr-FR')}`}
+                            {name: 'Date', value:`${dateLogs.toLocaleDateString('fr-FR')+' à '+dateLogs.toTimeString()}`}
                         )
                         .setColor('#E67E22')
                         .setFooter('© Ferme')
