@@ -72,7 +72,6 @@ bot.on('messageCreate', message => {
             db.pool.getConnection(function(err, connection) {
                 var today = new Date();
                 today.setHours( today.getHours()+2); // Ajout de 2 heures pour être à jour sur l'heure locale
-                console.log(today.getHours());
                 var dd = String(today.getDate()).padStart(2, '0');
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 var yyyy = today.getFullYear();
