@@ -20,7 +20,6 @@ module.exports = {
             {
               var result = parseInt(results[0]['totalQuantite'])+parseInt(arg1)
             }else{var result = arg1;}
-            const file = new MessageAttachment("./images/logo.png");
             const embedMessage = new MessageEmbed()
             .setTitle("── 🌾 Ajout de kilos 🌾 ──")
             .setColor("#E67E22")
