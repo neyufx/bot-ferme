@@ -12,7 +12,7 @@ module.exports = {
           // Use the connection
           if (arg1 < 1001 && arg1 > -501){ // si nb de kilo renseigné < 1000
             var curr = new Date;
-            curr.setHours( curr.getHours() + 1 );
+            curr.setHours( curr.getHours() + 1 ); // ajout d'1 heure pour être à jour sur l'heure locale
             var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay())).toISOString().split('T')[0];
             var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+7)).toISOString().split('T')[0];
         console.log(firstday+' '+lastday)
