@@ -151,7 +151,7 @@ bot.on('messageCreate', message => {
                 'Authorization': 'Bearer '+process.env.KEY
             }
         }).then(response => response.json())
-        .then(response => message.channel.send(response));
+        .then(response => console.log(response));
     }
     else if (command === 'pause')
     {
