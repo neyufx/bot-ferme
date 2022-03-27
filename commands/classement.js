@@ -30,6 +30,7 @@ module.exports = {
                             var yyyy = today.getFullYear();
                             return dd + '/' + mm + '/' + yyyy;
                         }
+                        
                         function capitalizeFirstLetter(string) {
                             return string[0].toUpperCase() + string.slice(1);
                         }

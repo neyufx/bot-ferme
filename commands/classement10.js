@@ -52,7 +52,6 @@ module.exports = {
                                     console.log(result2[0]['totalKg'])
                                     //embedMessage.addField(total,'test');
                                     message.channel.send({embeds: [embedMessage]});
-
                             }
                         });
                 } // fin if

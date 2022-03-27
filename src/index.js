@@ -128,8 +128,8 @@ bot.on('messageCreate', message => {
         message.delete(1000);
         const Discord = require("discord.js");
         bot.commands.get('semaine').execute(message,args);
-        const channel = bot.channels.cache.get('935208101014032384'); // id catégorie
-        channel.children.forEach(e => {
+        const channelCategory = bot.channels.cache.get('935208101014032384'); // id catégorie
+        channelCategory.children.forEach(e => {
             if(e.name !== undefined)
             {
                 const file = new MessageAttachment("./images/semaine.gif");
@@ -143,8 +143,15 @@ bot.on('messageCreate', message => {
                 channel01.send({embeds: [embedMessage], files: [file]})
             }
         })
-        //message.channel.send(`Le bot redémarre...`).then(process.exit(0));
-        // ()=>bot.destroy()).then(()=>bot.login(config.token) 'dans le then'
+        fetch('https://api.heroku.com/apps/brasserie-bot/dynos', {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/vnd.heroku+json; version=3',
+                'Authorization': 'Bearer '+process.env.KEY
+            }
+        }).then(response => response.json())
+        .then(response => message.channel.send(response));
     }
     else if (command === 'pause')
     {
