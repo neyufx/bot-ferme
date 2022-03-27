@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { MessageAttachment, MessageEmbed } = require('discord.js');
+const { MessageAttachment, MessageEmbed, Guild } = require('discord.js');
 const db = require('../database/db.js');
 
 
@@ -25,7 +25,7 @@ module.exports = {
             .setTitle("── 🌾 Ajout de kilos 🌾 ──")
             .setColor("#E67E22")
             .setDescription("Ajout de : "+arg1+" kg \nTotal de : "+result+" kg")
-            .setFooter({text:'© Ferme'});
+            .setFooter({text:'© Ferme', iconURL: Guild.iconURL()});
             message.channel.send({embeds: [embedMessage]});
           // When done with the connection, release it.
           connection.release();
