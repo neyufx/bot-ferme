@@ -158,38 +158,53 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'carte')
     {
-        message.channel.send({files: ["./images/carte.PNG"]});
+        message.delete(1000);
+        const file = new MessageAttachment("./images/carte.PNG");
+        const embedMessage = new MessageEmbed()
+        .setTitle('🗺️ Carte Ferme')
+        .setImage('attachment://carte.PNG')
+        .setColor('#E67E22')
+        .setTimestamp();
+        message.channel.send({embeds: [embedMessage], files: [file]});
     }
     else if (command === 'commandes')
     {
-        message.channel.send('!user <nomrp> <nomsteam> @taguser\n!kilo <nbkilos>\n!vire\n!pause\n!semaine\n!prime\n!carte\n!steamreg <lien compte steam>\n!steam\n!classement\n!restart\n!salon\n!classement10')
+        message.delete(1000);
+        const embedMessage = new MessageEmbed()
+        .setTitle('🛠️ Listes des commandes')
+        .setDescription('!user <nomrp> <nomsteam> @taguser\n!kilo <nbkilos>\n!vire\n!pause\n!semaine\n!prime\n!carte\n!steamreg <lien compte steam>\n!steam\n!classement\n!restart\n!salon\n!classement10')
+        .setColor('#E67E22')
+        .setFooter({text:'© Ferme'})
+        .setTimestamp();
+        message.channel.send({embeds: [embedMessage]})
     }
     else if (command === 'steamreg')
     {
+        message.delete(1000);
         bot.commands.get('steamreg').execute(message,args);
     }
     else if (command === 'steam')
     {
+        message.delete(1000);
         bot.commands.get('steam').execute(message,args);
     }
     else if (command === 'classement')
     {
+        message.delete(1000);
         bot.commands.get('classement').execute(message,args);
     }
     else if (command === 'salon')
     {
-        salons = ['<#954147152823722024>','<#954147198008958976>','<#954147293836238908>','<#954147077791830086>'];
-        salons.forEach(element => {
-            message.channel.send(element);
-        })
-        console.log(salons);
+        message.delete(1000);
         bot.commands.get('salon').execute(message,args);
     }
     else if (command === 'classement10')
     {
+        message.delete(1000);
         bot.commands.get('classement10').execute(message,args);
     }
     else if (command === 'restart'){
+        message.delete(1000);
         fetch('https://api.heroku.com/apps/ferme-bot/dynos', {
             method: 'DELETE',
             headers: {
