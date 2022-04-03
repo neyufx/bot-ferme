@@ -39,7 +39,7 @@ module.exports = {
                         .setColor('#E67E22')
                         .setFooter({text:'© Ferme'})
                         .setTimestamp();
-                        result1.forEach(element => {
+                        result.forEach(element => {
                             embedMessage.addField(`${medals[i++]}`+'. '+capitalizeFirstLetter(element['nomRp'].replace('-',' ')), `${element['totalKg']}kg`);
                         });
                         message.channel.send({embeds: [embedMessage]});
