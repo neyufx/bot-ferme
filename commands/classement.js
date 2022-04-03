@@ -10,13 +10,13 @@ module.exports = {
     description: 'Donne le classement des employées',
     execute(message,args){
             db.pool.getConnection(function(err, connection) {
-                var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-                var last = first + 6; // last day is the first day + 6
-                var firstdate = new Date(curr.setDate(first)).toISOString().slice(0, 10);
-                var lastdate = new Date(curr.setDate(curr.getDate()+6)).toISOString().slice(0, 10);
+                var curr = new Date;
+                curr.setHours( curr.getHours() + 1 ); // ajout d'1 heure pour être à jour sur l'heure locale
+                var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay())).toISOString().split('T')[0];
+                var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+7)).toISOString().split('T')[0];
                 connection.query(`SELECT employees.nomRp,SUM(quantite) as totalKg
                 FROM dossiers JOIN employees on employee_id = employees.id 
-                WHERE date BETWEEN "${firstdate}" AND "${lastdate}"
+                WHERE date BETWEEN "${firstday}" AND "${lastday}"
                 group by nom
                 ORDER by totalKg desc
                 LIMIT 3`, function(error, result,field) {
@@ -35,15 +35,13 @@ module.exports = {
                             return string[0].toUpperCase() + string.slice(1);
                         }
                         const embedMessage = new MessageEmbed()
-                        .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} 🏆`)
-                        .addFields(
-                            {name: `${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))}`, value: `Total : ${result[0]['totalKg']} kg`},
-                            {name: `${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))}`, value: `Total : ${result[1]['totalKg']} kg`},
-                            {name: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))}`, value: `Total : ${result[2]['totalKg']} kg`}
-                        )
+                        .setTitle(`🏆 Classement semaine du ${dateFormat(firstday)} au ${dateFormat(lastday)} 🏆`)
                         .setColor('#E67E22')
                         .setFooter({text:'© Ferme'})
                         .setTimestamp();
+                        result1.forEach(element => {
+                            embedMessage.addField(`${medals[i++]}`+'. '+capitalizeFirstLetter(element['nomRp'].replace('-',' ')), `${element['totalKg']}kg`);
+                        });
                         message.channel.send({embeds: [embedMessage]});
                 } // fin if
                 else{

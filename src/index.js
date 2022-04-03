@@ -51,6 +51,7 @@ bot.on('messageCreate', message => {
             bot.commands.get('kilo').execute(message,args);
             db.pool.getConnection(function(err, connection) {
                 var today = new Date();
+                curr.setHours( curr.getHours() + 2);
                 var dd = String(today.getDate()).padStart(2, '0');
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 var yyyy = today.getFullYear();
@@ -81,6 +82,7 @@ bot.on('messageCreate', message => {
         bot.commands.get('vire').execute(message,args);
         message.channel.send({files: ["./images/vire.gif"]});
         var today = new Date();
+        curr.setHours( curr.getHours() + 2 );
                 var dd = String(today.getDate()).padStart(2, '0');
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 var yyyy = today.getFullYear();
@@ -113,8 +115,15 @@ bot.on('messageCreate', message => {
                 channel01.send({files: ["./images/semaine.gif"]})
             }
         })
-        //message.channel.send(`Le bot redémarre...`).then(process.exit(0));
-        // ()=>bot.destroy()).then(()=>bot.login(config.token) 'dans le then'
+        fetch('https://api.heroku.com/apps/ferme-bot/dynos', {
+            method: 'DELETE',
+            headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/vnd.heroku+json; version=3',
+                'Authorization': 'Bearer '+process.env.KEY
+            }
+        }).then(response => response.json())
+        .then(response => console.log(response));
     }
     else if (command === 'pause')
     {
@@ -128,6 +137,7 @@ bot.on('messageCreate', message => {
         message.channel.send({files: ["./images/prime.gif"]});
         db.pool.getConnection(function(err, connection) {
             var today = new Date();
+            curr.setHours( curr.getHours() + 2 );
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = today.getFullYear();

@@ -34,13 +34,13 @@ module.exports = {
                         
                         connection.query(`SELECT SUM(quantite) as totalKg 
                         FROM dossiers JOIN employees on employee_id = employees.id 
-                        WHERE date BETWEEN "${firstdate}" AND "${lastdate}"`, function(error,result2,field){
+                        WHERE date BETWEEN "${firstday}" AND "${lastday}"`, function(error,result2,field){
                             if (error) throw error;
                                 else if (result2){
                                     let i = 1;
                                     var total = result2[0]['totalKg'];
                                     const embedMessage = new MessageEmbed()
-                                    .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} 🏆`)
+                                    .setTitle(`🏆 Classement semaine du ${dateFormat(firstday)} au ${dateFormat(lastday)} 🏆`)
                                     .setColor('#E67E22')
                                     .setFooter({text:'© Ferme'})
                                     .setTimestamp();
