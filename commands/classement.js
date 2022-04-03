@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const { Client, Collection, Intents } = require('discord.js');
+const { Client, Intents, MessageEmbed } = require('discord.js');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 const { Guild } = require('discord.js');
 const db = require('../database/db.js');
@@ -30,14 +30,21 @@ module.exports = {
                             var yyyy = today.getFullYear();
                             return dd + '/' + mm + '/' + yyyy;
                         }
+                        
                         function capitalizeFirstLetter(string) {
                             return string[0].toUpperCase() + string.slice(1);
                         }
-                        message.channel.send(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} @here :`)
-                        let i = 0;
-                        result.forEach(element => {
-                            message.channel.send(`${medals[i++]}`+' - '+capitalizeFirstLetter(element['nomRp'].replace('-',' '))+' : '+element['totalKg']+'kg');
-                        });  
+                        const embedMessage = new MessageEmbed()
+                        .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} 🏆`)
+                        .addFields(
+                            {name: `${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))}`, value: `Total : ${result[0]['totalKg']} kg`},
+                            {name: `${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))}`, value: `Total : ${result[1]['totalKg']} kg`},
+                            {name: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))}`, value: `Total : ${result[2]['totalKg']} kg`}
+                        )
+                        .setColor('#E67E22')
+                        .setFooter({text:'© Ferme'})
+                        .setTimestamp();
+                        message.channel.send({embeds: [embedMessage]});
                 } // fin if
                 else{
                 message.channel.send('Il n\'y a pas de classement cette semaine !');

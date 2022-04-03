@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageAttachment, MessageEmbed, Guild } = require('discord.js');
 const db = require('../database/db.js');
-var curr = new Date; // get current date
 
 
 module.exports = {
@@ -19,9 +19,13 @@ module.exports = {
             if(results[0]['totalQuantite'])
             {
               var result = parseInt(results[0]['totalQuantite'])+parseInt(arg1)
-              
             }else{var result = arg1;}
-            message.channel.send("Ajout de "+arg1+" kilos pour un total de "+result+" kilos");
+            const embedMessage = new MessageEmbed()
+            .setTitle("── 🌾 Ajout de kilos 🌾 ──")
+            .setColor("#E67E22")
+            .setDescription("Ajout de : "+arg1+" kg \nTotal de : "+result+" kg")
+            .setFooter({text:'© Ferme'});
+            message.channel.send({embeds: [embedMessage]});
           // When done with the connection, release it.
           connection.release();
           // Handle error after the release.
