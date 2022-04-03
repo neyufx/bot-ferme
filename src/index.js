@@ -51,7 +51,7 @@ bot.on('messageCreate', message => {
             bot.commands.get('kilo').execute(message,args);
             db.pool.getConnection(function(err, connection) {
                 var today = new Date();
-                today.setHours( curr.getHours() + 2);
+                today.setHours( today.getHours() + 2);
                 var dd = String(today.getDate()).padStart(2, '0');
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 var yyyy = today.getFullYear();
@@ -82,7 +82,7 @@ bot.on('messageCreate', message => {
         bot.commands.get('vire').execute(message,args);
         message.channel.send({files: ["./images/vire.gif"]});
         var today = new Date();
-        today.setHours( curr.getHours() + 2 );
+        today.setHours( today.getHours() + 2 );
                 var dd = String(today.getDate()).padStart(2, '0');
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 var yyyy = today.getFullYear();
@@ -137,7 +137,7 @@ bot.on('messageCreate', message => {
         message.channel.send({files: ["./images/prime.gif"]});
         db.pool.getConnection(function(err, connection) {
             var today = new Date();
-            today.setHours( curr.getHours() + 2 );
+            today.setHours( today.getHours() + 2 );
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = today.getFullYear();
