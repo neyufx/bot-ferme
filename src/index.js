@@ -1,7 +1,7 @@
-const { Client, Collection, Intents } = require('discord.js');
-const fs = require('fs');
+const { Client, Collection, Intents, MessageAttachment, MessageEmbed } = require('discord.js');
 var CronJob = require('cron').CronJob;
-const CronTime = require('cron').CronTime;
+const CronTime = require('cron').CronTime
+const fs = require('fs');
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 const config = require('./config.json');
 const path = require('path');
@@ -9,6 +9,7 @@ const db = require('../database/db.js');
 const { channel } = require('diagnostics_channel');
 const fetch = require('node-fetch');
 const prefix = "!";
+var curr = new Date; // get current date
 
 
 /* Va chercher les commandes dans le dossier /commands */
@@ -26,7 +27,7 @@ bot.on('ready', () => {
     console.log(`Connectez en tant que : ${bot.user.tag}!`);
     bot.user.setStatus("online");
     bot.user.setActivity("Calculer les primes");
-  });
+});
 
 
   /* Création de message */
@@ -39,6 +40,7 @@ bot.on('messageCreate', message => {
     /* Si la commande user */
     if(gerantRole){
     if(command === 'user'){ // Commande !user <nomrp> <nomsteam> @taguser
+        message.delete(1000);
         let arg1 = args[0];
         let arg2 = args[1];
         let arg3 = args[2];
@@ -96,11 +98,11 @@ bot.on('messageCreate', message => {
             }
         }
     }else if (command === 'vire'){
+        message.delete(1000);
         const Discord = require("discord.js");
         bot.commands.get('vire').execute(message,args);
         message.channel.send({files: ["./images/vire.gif"]});
         var today = new Date();
-        today.setHours( today.getHours() + 2 );
                 var dd = String(today.getDate()).padStart(2, '0');
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 var yyyy = today.getFullYear();
@@ -123,17 +125,25 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'semaine')
     {
+        message.delete(1000);
         const Discord = require("discord.js");
         bot.commands.get('semaine').execute(message,args);
-        const channel = bot.channels.cache.get('935208101014032384'); // id catégorie
-        channel.children.forEach(e => {
+        const channelCategory = bot.channels.cache.get('935208101014032384'); // id catégorie
+        channelCategory.children.forEach(e => {
             if(e.name !== undefined)
             {
+                const file = new MessageAttachment("./images/semaine.gif");
+                const embedMessage = new MessageEmbed()
+                        .setTitle('✨ Nouvelle semaine ✨')
+                        .setImage('attachment://semaine.gif')
+                        .setColor('#E67E22')
+                        .setFooter({text:'© Ferme'})
+                        .setTimestamp();
                 const channel01 = bot.channels.cache.get(e.id);
-                channel01.send({files: ["./images/semaine.gif"]})
+                channel01.send({embeds: [embedMessage], files: [file]})
             }
         })
-        fetch('https://api.heroku.com/apps/ferme-bot/dynos', {
+        fetch('https://api.heroku.com/apps/brasserie-bot/dynos', {
             method: 'DELETE',
             headers: {
                 'Content-type': 'application/json',
@@ -145,25 +155,26 @@ bot.on('messageCreate', message => {
     }
     else if (command === 'pause')
     {
+        message.delete(1000);
         const Discord = require("discord.js");
         bot.commands.get('pause').execute(message,args);
     }
     else if (command === 'prime')
     {
+        message.delete(1000);
         const Discord = require("discord.js");
         bot.commands.get('prime').execute(message,args);
         message.channel.send({files: ["./images/prime.gif"]});
         db.pool.getConnection(function(err, connection) {
             var today = new Date();
-            today.setHours( today.getHours() + 2 );
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
             var yyyy = today.getFullYear();
-            today = yyyy + '/' + mm + '/' + dd;
+            date = yyyy + '/' + mm + '/' + dd;
             // Use the connection
             connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
                 if (result[0] !== undefined){
-            connection.query(`insert into primes(date,employee_id) values("${today}","${result[0]['id']}")`, function (error, results, fields) {
+            connection.query(`insert into primes(date,employee_id) values("${date}","${result[0]['id']}")`, function (error, results, fields) {
             // When done with the connection, release it.
             connection.release();
             // Handle error after the release.
@@ -222,7 +233,6 @@ bot.on('messageCreate', message => {
         bot.commands.get('classement10').execute(message,args);
     }
     else if (command === 'restart'){
-        message.delete(1000);
         fetch('https://api.heroku.com/apps/ferme-bot/dynos', {
             method: 'DELETE',
             headers: {
@@ -236,7 +246,6 @@ bot.on('messageCreate', message => {
 }
 
 });
-
 
 var job = new CronJob('0 0 13,19 * * *', function () {
     let channel = bot.channels.cache.get('954146765047750676'); // channel General-Hrp
