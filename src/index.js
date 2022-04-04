@@ -1,5 +1,7 @@
 const { Client, Collection, Intents } = require('discord.js');
 const fs = require('fs');
+var CronJob = require('cron').CronJob;
+const CronTime = require('cron').CronTime;
 const bot = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.DIRECT_MESSAGES] });
 const config = require('./config.json');
 const path = require('path');
@@ -46,20 +48,36 @@ bot.on('messageCreate', message => {
         }
     }else if (command === 'kilo'){
         let arg1 = args[0];
+        var dateLogs = new Date();
+        dateLogs.setMinutes(dateLogs.getMinutes() + 60);
+        const channelLog = bot.channels.cache.get('957211720831619092');
+        const embedLogs = new MessageEmbed()
+                        .setTitle(' ⚙️ Logs Ferme')
+                        .setDescription(`Commande Kilo`)
+                        .addFields(
+                            {name: 'Auteur', value:`${message.author.tag}`},
+                            {name: 'Nombre de kilos', value:`${arg1+'kg'}`},
+                            {name: 'Salon', value:`${message.channel.name}`},
+                            {name: 'Date', value:`${dateLogs.toLocaleDateString('fr-FR', {year:"numeric",month:"2-digit",day:"2-digit", timeZone: 'UTC'})+' à '+dateLogs.toLocaleTimeString('fr-FR',{hour:"2-digit",minute:"2-digit",second:"2-digit", timeZone:'UTC'})}`}
+                        )
+                        .setColor('#E67E22')
+                        .setFooter({text:'© Ferme'})
+                        .setTimestamp();
+        channelLog.send({embeds: [embedLogs]})
         if (arg1){
             if(arg1 < 1001 && arg1 > -501){
             bot.commands.get('kilo').execute(message,args);
             db.pool.getConnection(function(err, connection) {
                 var today = new Date();
-                today.setHours( today.getHours() + 2);
+                today.setHours( today.getHours()+2); // Ajout de 2 heures pour être à jour sur l'heure locale
                 var dd = String(today.getDate()).padStart(2, '0');
                 var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
                 var yyyy = today.getFullYear();
-                today = yyyy + '/' + mm + '/' + dd;
+                var date = yyyy + '/' + mm + '/' + dd;
                 // Use the connection
                 connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
                     if (result[0] !== undefined){
-                connection.query(`insert into dossiers(numero,quantite,nom,date,employee_id) values("${message.channel.id}","${arg1}","${message.channel.name}","${today}","${result[0]['id']}")`, function (error, results, fields) {
+                connection.query(`insert into dossiers(numero,quantite,nom,date,employee_id) values("${message.channel.id}","${arg1}","${message.channel.name}","${date}","${result[0]['id']}")`, function (error, results, fields) {
                 // When done with the connection, release it.
                 connection.release();
                 // Handle error after the release.
@@ -68,7 +86,7 @@ bot.on('messageCreate', message => {
                 });
             }
             else{
-                message.channel.send('Mauvais channel !')
+                message.channel.send('Mauvais channel !');
             }
                 });
               });
@@ -218,6 +236,58 @@ bot.on('messageCreate', message => {
 }
 
 });
+
+
+var job = new CronJob('0 0 13,19 * * *', function () {
+    let channel = bot.channels.cache.get('954146765047750676'); // channel General-Hrp
+    db.pool.getConnection(function(err, connection) {
+        var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
+        var last = first + 6; // last day is the first day + 6
+        var firstdate = new Date(curr.setDate(first)).toISOString().slice(0, 10);
+        var lastdate = new Date(curr.setDate(curr.getDate()+6)).toISOString().slice(0, 10);
+        connection.query(`SELECT employees.nomRp,SUM(quantite) as totalKg
+        FROM dossiers JOIN employees on employee_id = employees.id 
+        WHERE date BETWEEN "${firstdate}" AND "${lastdate}"
+        group by nom
+        ORDER by totalKg desc
+        LIMIT 3`, function(error, result,field) {
+            if (error) throw error;
+            else if (result){
+                let medals = ['🥇','🥈','🥉']
+                function dateFormat(date){
+                    var today = new Date(date);
+                    var dd = String(today.getDate()).padStart(2, '0');
+                    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+                    var yyyy = today.getFullYear();
+                    return dd + '/' + mm + '/' + yyyy;
+                }
+                function capitalizeFirstLetter(string) {
+                    return string[0].toUpperCase() + string.slice(1);
+                }
+                const embedMessage = new MessageEmbed()
+                    .setTitle(`🏆 Classement semaine du ${dateFormat(firstdate)} au ${dateFormat(lastdate)} 🏆`)
+                    .addFields(
+                        {name: `${medals[0]} - ${capitalizeFirstLetter(result[0]['nomRp'].replace('-',' '))}`, value: `Total : ${result[0]['totalKg']} kg`},
+                        {name: `${medals[1]} - ${capitalizeFirstLetter(result[1]['nomRp'].replace('-',' '))}`, value: `Total : ${result[1]['totalKg']} kg`},
+                        {name: `${medals[2]} - ${capitalizeFirstLetter(result[2]['nomRp'].replace('-',' '))}`, value: `Total : ${result[2]['totalKg']} kg`}
+                    )
+                    .setColor('#E67E22')
+                    .setFooter({text:'© Ferme'})
+                    .setTimestamp();
+                    channel.send({embeds: [embedMessage]});
+        } // fin if
+        else{
+        channel.send('Il n\'y a pas de classement cette semaine !');
+        }
+        // When done with the connection, release it.
+        connection.release();
+        // Handle error after the release.
+        
+        // Don't use the connection here, it has been returned to the pool.
+    });
+})
+}, null, true, 'Europe/Paris')
+job.start();
 
 
 /* Affiche les erreurs dans la console */
