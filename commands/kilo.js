@@ -16,7 +16,7 @@ module.exports = {
             var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay())).toISOString().split('T')[0];
             var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+7)).toISOString().split('T')[0];
           connection.query(`SELECT SUM(quantite) as totalQuantite FROM dossiers WHERE date BETWEEN "${firstday}" AND "${lastday}" AND numero = "${message.channel.id}"`, function (error, results, fields) {
-            if(results[0]['totalQuantite'])
+            if(results[0]['totalQuantite'] || results[0]['totalQuantite'] == 0)
             {
               console.log('yes');
               var result = parseInt(results[0]['totalQuantite'])
