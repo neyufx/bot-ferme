@@ -232,6 +232,10 @@ bot.on('messageCreate', message => {
         message.delete(1000);
         bot.commands.get('classement10').execute(message,args);
     }
+    else if (command === 'delete'){
+        message.delete(1000);
+        bot.commands.get('delete').execute(message,args);
+    }
     else if (command === 'restart'){
         fetch('https://api.heroku.com/apps/ferme-bot/dynos', {
             method: 'DELETE',
