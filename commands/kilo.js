@@ -12,7 +12,7 @@ module.exports = {
           // Use the connection
           if (arg1 < 1001 && arg1 > -501){ // si nb de kilo renseigné < 1000
             var curr = new Date;
-            curr.setHours( curr.getHours() + 1 ); // ajout d'1 heure pour être à jour sur l'heure locale
+            curr.setHours( curr.getHours() + 2 ); // ajout de 2 heures pour être à jour sur l'heure locale
             var firstday = new Date(curr.setDate(curr.getDate() - curr.getDay())).toISOString().split('T')[0];
             var lastday = new Date(curr.setDate(curr.getDate() - curr.getDay()+7)).toISOString().split('T')[0];
           connection.query(`SELECT SUM(quantite) as totalQuantite FROM dossiers WHERE date BETWEEN "${firstday}" AND "${lastday}" AND numero = "${message.channel.id}"`, function (error, results, fields) {

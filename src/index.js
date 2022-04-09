@@ -68,7 +68,6 @@ bot.on('messageCreate', message => {
         channelLog.send({embeds: [embedLogs]})
         if (arg1){
             if(arg1 < 1001 && arg1 > -501){
-            bot.commands.get('kilo').execute(message,args);
             db.pool.getConnection(function(err, connection) {
                 var today = new Date();
                 today.setHours( today.getHours()+2); // Ajout de 2 heures pour être à jour sur l'heure locale
@@ -80,6 +79,7 @@ bot.on('messageCreate', message => {
                 connection.query(`SELECT id FROM employees WHERE nomDossier = "${message.channel.name}"`, function(error, result,field) {  
                     if (result[0] !== undefined){
                 connection.query(`insert into dossiers(numero,quantite,nom,date,employee_id) values("${message.channel.id}","${arg1}","${message.channel.name}","${date}","${result[0]['id']}")`, function (error, results, fields) {
+                bot.commands.get('kilo').execute(message,args);
                 // When done with the connection, release it.
                 connection.release();
                 // Handle error after the release.
