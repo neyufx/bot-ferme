@@ -18,13 +18,10 @@ module.exports = {
           connection.query(`SELECT SUM(quantite) as totalQuantite FROM dossiers WHERE date BETWEEN "${firstday}" AND "${lastday}" AND numero = "${message.channel.id}"`, function (error, results, fields) {
             if(results[0]['totalQuantite'] || results[0]['totalQuantite'] == 0)
             {
-              console.log('yes');
               var result = parseInt(results[0]['totalQuantite'])
             }else{
-              console.log('no');
               var result = arg1;
             }
-            console.log(results[0]['totalQuantite']);
             const embedMessage = new MessageEmbed()
             .setTitle("── 🌾 Ajout de kilos 🌾 ──")
             .setColor("#E67E22")
