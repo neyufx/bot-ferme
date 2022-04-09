@@ -20,7 +20,7 @@ module.exports = {
             {
               var result = parseInt(results[0]['totalQuantite'])
             }else{var result = arg1;}
-            print(results[0]['totalQuantite']);
+            console.log(results[0]['totalQuantite']);
             const embedMessage = new MessageEmbed()
             .setTitle("── 🌾 Ajout de kilos 🌾 ──")
             .setColor("#E67E22")
