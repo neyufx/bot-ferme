@@ -14,7 +14,7 @@ module.exports = {
                 messages.forEach((message) => {
                     message.delete();
                 });
-                channel.send(`${arg} message(s) supprimé`);
+                message.channel.send(`${arg} message(s) supprimé`);
             })
         }
     }
